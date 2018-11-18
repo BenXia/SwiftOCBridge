@@ -1,0 +1,64 @@
+## 说明
+
+### 工程内部 OC 调 Swift 时引用
+#import "QQingCommon-Swift.h"
+#import "student-Swift.h"
+
+### Swift 使用 OC 的宏放在
+SwiftCommonUtility
+SwiftUtility
+
+### Swift 的公用库放在
+QQingCommon-Bridging-Header
+assistant-Bridging-Header
+
+
+**********************************************************
+
+## 记录
+
+### Swift 里用 #if DEBUG
+去 Build Setting -> Active Compilation Conditions 里加
+可参考家长端
+
+### 处理 time 相关参数时，用 Int64
+强转为 Int(Int32) 时会崩
+
+### iOS 8 初始化用 Swift 写的带 xib 的 VC 崩溃（VC 未提供 init 方法时）
+原因：系统没找到对应的 xib 文件，所以没加载上，据说在 iOS 9 beta 4 修复了这个 bug
+解法：给出两种推荐的方法
+1. 定义 VC 时这样写：@objc(ExampleVC) class ExampleVC: BaseViewController { ... }
+2. 手动添加 init 方法，然后调用 super.init(nibName: "ExampleVC", bundle: nil)
+
+### 报错 module 'AMapFoundationKit' is defined in both ... failed to import bridging header ...
+前提：如果这是 clean 之后能解决的问题
+解法：目前尝试下来有效的方法是删除报错的文件夹（/Users/zhouyihua/Library/Developer/Xcode/DerivedData/ModuleCache.noindex/AWBII3GHMMVG）
+
+**********************************************************
+
+## 待做
+
+### Swift 的代码提示
+### OC 方法改成 Swift 的规则
+### "failed to import bridging header" 解法
+
+
+
+**********************************************************
+
+## 问题
+
+### iOS 8 rac 报错
+这问题的 issue，解法也在里面
+https://github.com/ReactiveCocoa/ReactiveCocoa/issues/3507
+其他网页
+https://www.google.com/search?q=iOS+8+rac+Unexpected+pthread+mutex+error+code
+https://wiki.sei.cmu.edu/confluence/display/c/POS04-C.+Avoid+using+PTHREAD_MUTEX_NORMAL+type+mutex+locks
+
+### new 出来的 GPBxxxResponse 里面的字段不是 nil，而是一个空字符串 ""
+所以里面的东西不可能为 nil 吗？那么判断就能轻松些了，之后再看吧
+if response.liveClassName != nil {
+print(response.liveClassName)
+}
+
+
