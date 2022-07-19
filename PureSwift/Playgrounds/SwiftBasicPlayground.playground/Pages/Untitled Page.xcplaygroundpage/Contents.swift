@@ -15,6 +15,55 @@ import UIKit
  /* 这是第二个被嵌套的多行注释 */
  这是第一个多行注释的结尾 */
 
+let swift = "Swift is fun"
+swift.dropFirst(9)
+
+let group = "👩‍👩‍👧‍👦"
+group.count
+group.unicodeScalars.count
+group.dropFirst()
+
+let group2 = "👨‍👩‍👧‍👦"
+group2.count
+group2.unicodeScalars.count
+group2.dropFirst()
+
+let cafee = "caf\u{0065}\u{0301}"
+let cafee2 = "caf\u{00e9}"
+//cafee.dropFirst(4)
+cafee.dropLast()
+
+cafee.unicodeScalars.forEach { print($0) }
+cafee2.unicodeScalars.forEach { print($0) }
+cafee.utf8.forEach { print($0) }
+cafee.utf16.forEach { print($0) }
+
+cafee.unicodeScalars.dropLast().forEach { print($0) }
+cafee.utf16.dropLast().forEach { print($0) }
+cafee.utf8.dropLast().forEach { print($0) }
+
+cafee.count
+cafee.startIndex
+cafee.endIndex
+let index = cafee.index(cafee.startIndex, offsetBy: 3, limitedBy: cafee.endIndex)
+cafee[index!]
+
+extension String {
+    subscript(index: Int) -> Character {
+        guard let index = self.index(startIndex, offsetBy: index, limitedBy: endIndex) else {
+            fatalError("String index out of range")
+        }
+        
+        return self[index]
+    }
+}
+
+cafee[3]
+
+for i in 0 ..< cafee.count {
+    print(cafee[i])
+}
+
 let kInt : Int = 2
 
 let kDouble : Double = 2.0
@@ -39,7 +88,7 @@ let π = 3.14159
 
 let 你好 = "你好世界"
 
-let 🐶🐮 = "dogcow"º
+let 🐶🐮 = "dogcow"
 
 var friendlyWelcome = "Hello!"
 friendlyWelcome = "Bonjour!"
