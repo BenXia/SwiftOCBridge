@@ -14,21 +14,26 @@ class SwiftBasicVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.testMultiLineString()
-        self.testSameFunc()
-        self.testArrayDict()
-        self.testOptionalUsage()
-        self.testSwitchUsage()
-        self.testForInLoop()
-        self.testFuncAndClosure()
-        self.testObjectAndClass()
-        self.testOptionalChain()
-        self.testEnumAndStruct()
-        self.testAsync()
-        self.testProtocolExtension()
-        self.testErrorHandle()
-        self.testDefer()
-        self.testGenerics()
+//        self.testMultiLineString()
+//        self.testSameFunc()
+//        SwiftString.characterSetIntroduce()
+        SwiftString.memoryLayoutIntroduce()
+//        self.testArrayDict()
+//        SwiftStruct.memoryLayoutIntroduce()
+//        SwiftArray.memoryLayoutIntroduce()
+//        self.testTypeAlias()
+//        self.testOptionalUsage()
+//        self.testSwitchUsage()
+//        self.testForInLoop()
+//        self.testFuncAndClosure()
+//        self.testObjectAndClass()
+//        self.testOptionalChain()
+//        self.testEnumAndStruct()
+//        self.testAsync()
+//        self.testProtocolExtension()
+//        self.testErrorHandle()
+//        self.testDefer()
+//        self.testGenerics()
 
         let webVC = WKWebView()
         webVC.load(URLRequest.init(url: URL(string: "https://gitbook.swiftgg.team/swift/huan-ying-shi-yong-swift/03_a_swift_tour")!))
@@ -42,10 +47,24 @@ class SwiftBasicVC: UIViewController {
         let apples = 3
         let oranges = 5
         let quotation = """
-I said "I have \(apples) apples."
-And then I said "I have \(apples + oranges) pieces of fruit."
+I said "I have \(apples) apples."\nAnd then I\
+ said "I have \(apples + oranges) pieces of fruit."\"""
 """
         print(quotation)
+        
+        
+        let quotation2 = #"""
+I said "I have \(apples) apples."\#nAnd then I\#
+ said "I have \(apples + oranges) pieces of fruit.""""
+"""#
+        print(quotation2)
+        
+        
+        let quotation3 = #"""
+I said "I have \#(apples) apples."\#nAnd then I\#
+ said "I have \#(apples + oranges) pieces of fruit.""""
+"""#
+        print(quotation3)
     }
     
     func testSameFunc() {
@@ -81,10 +100,17 @@ And then I said "I have \(apples + oranges) pieces of fruit."
         print(occupations)
     }
     
+    func testTypeAlias() {
+        typealias AudioSample = UInt16
+        let maxAmplitudeFound = AudioSample.min
+        
+        print("typealias AudioSample value: \(maxAmplitudeFound)")
+    }
+    
     func testOptionalUsage() {
         // if let / guard let
         // 可选绑定
-        var optionalString: String? = "Nick"
+        let optionalString: String? = "Nick"
         print(optionalString == nil)
         
         if let name = optionalString {
@@ -100,21 +126,25 @@ And then I said "I have \(apples + oranges) pieces of fruit."
         print("Hello, \(name)")
         
         
-        
-        // !
-        // 强制解析，或者隐式解析可选类型
+        // 强制解析
         let url = URL(string: "https://www.baidu.com")
         
         if url != nil {
-            let request = URLRequest(url: url!)
+            let _ = URLRequest(url: url!)
         }
         
-        let url2: URL? = URL(string: "https://www.baidu.com")
-        let reqeust2 = URLRequest(url: url2!)
         
-        let url3: URL! = URL(string: "https://www.baidu.com")
-        let reqeust3 = URLRequest(url: url3)
-        
+        // 隐式解析
+        let possibleString: String? = "An optional string."
+        let forcedString: String = possibleString! // 需要感叹号来获取值
+        print("forcedString: \(forcedString)")
+
+        let assumedString: String! = "An implicitly unwrapped optional string."
+        let implicitString: String = assumedString  // 不需要感叹号
+        print("implicitString: \(implicitString)")
+        // optionString 的类型依然是 "String?"，assumedString 也没有被强制解析。
+        let optionString = assumedString
+        print("optionalString: \(optionString!)")
         
         
         // ?? 运算符
@@ -144,7 +174,7 @@ And then I said "I have \(apples + oranges) pieces of fruit."
         }
         
         var fruit = Fruit.Apple
-        var value = arc4random() % 2
+        let value = arc4random() % 2
         if value == 0 {
             fruit = Fruit.Banana
         }
@@ -201,12 +231,12 @@ And then I said "I have \(apples + oranges) pieces of fruit."
         print("func with inner func return \(self.returnFifteen())")
         
         
-        var increment = makeIncrement()
+        let increment = makeIncrement()
         print("increment(7) = \(increment(7))")
         
         
-        var numbers = [20, 19, 7, 12]
-        var result = hasAnyMatches(list: numbers, condition: lessThanTen)
+        let numbers = [20, 19, 7, 12]
+        let result = hasAnyMatches(list: numbers, condition: lessThanTen)
         print("\(result ? "has" : "not have") number less than ten")
         
         
@@ -281,7 +311,7 @@ And then I said "I have \(apples + oranges) pieces of fruit."
     }
     
     func testObjectAndClass() {
-        var shape = Shape()
+        let shape = Shape()
         shape.numberOfSides = 7
         print(shape.simpleDescription())
         
@@ -296,7 +326,7 @@ And then I said "I have \(apples + oranges) pieces of fruit."
         print("triangle.sideLength = \(triangle.sideLength)");
         
         
-        var triangleAndSquare = TriangleAndSquare(size: 10, name: "another test shape")
+        let triangleAndSquare = TriangleAndSquare(size: 10, name: "another test shape")
         print(triangleAndSquare.square.sideLength)
         print(triangleAndSquare.triangle.sideLength)
         triangleAndSquare.square = Square(sideLength: 50, name: "larger square")
@@ -386,7 +416,7 @@ And then I said "I have \(apples + oranges) pieces of fruit."
         }
         
         let success = ServerResponse.result("6:00 am", "8:09 pm")
-        let failure = ServerResponse.failure("Out of cheese.")
+        _ = ServerResponse.failure("Out of cheese.")
         
         switch success {
         case let .result(sunrise, sunset):
@@ -456,7 +486,7 @@ And then I said "I have \(apples + oranges) pieces of fruit."
     
     func testProtocolExtension() {
         // 类、枚举和结构体都可以遵循协议
-        var a = SimpleClass()
+        let a = SimpleClass()
         a.adjust()
         let aDescription = a.simpleDescription
         print("aDescription: \(aDescription)")
@@ -530,7 +560,7 @@ And then I said "I have \(apples + oranges) pieces of fruit."
         // 如果函数抛出错误，该错误会被抛弃并且结果为 nil。
         // 否则，结果会是一个包含函数返回值的可选值。
         let printerSuccess = try? send(job: 1884, toPrinter: "Mergenthaler")
-        let printerFailure = try? send(job: 1885, toPrinter: "Never Has Toner")
+        _ = try? send(job: 1885, toPrinter: "Never Has Toner")
         
         if let result = printerSuccess {
             print("Printer result: \(result)")

@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		334EF6622B11C812007409EE /* SwiftString.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334EF6612B11C812007409EE /* SwiftString.swift */; };
+		334EF6642B11C86D007409EE /* SwiftArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334EF6632B11C86D007409EE /* SwiftArray.swift */; };
+		334EF66C2B11F471007409EE /* SwiftStruct.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334EF66B2B11F471007409EE /* SwiftStruct.swift */; };
+		334EF66E2B11FC00007409EE /* Mems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334EF66D2B11FC00007409EE /* Mems.swift */; };
+		334EF6702B11FC3A007409EE /* MemsUsage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 334EF66F2B11FC3A007409EE /* MemsUsage.swift */; };
 		339BE9002B0DD82E001D32BA /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339BE8FF2B0DD82E001D32BA /* AppDelegate.swift */; };
 		339BE9022B0DD82E001D32BA /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339BE9012B0DD82E001D32BA /* SceneDelegate.swift */; };
 		339BE9042B0DD82E001D32BA /* AboutSwiftVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339BE9032B0DD82E001D32BA /* AboutSwiftVC.swift */; };
@@ -16,10 +21,17 @@
 		339BE9172B0DE119001D32BA /* SwiftVersionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339BE9162B0DE119001D32BA /* SwiftVersionVC.swift */; };
 		339BE9192B0DE128001D32BA /* SwiftBasicVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339BE9182B0DE128001D32BA /* SwiftBasicVC.swift */; };
 		339BE91C2B0DE592001D32BA /* SwiftSummaryVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 339BE91B2B0DE592001D32BA /* SwiftSummaryVC.swift */; };
+		33D930462B11905B005631EE /* SwiftChapterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D930452B11905B005631EE /* SwiftChapterVC.swift */; };
+		33D9304A2B1195AF005631EE /* SwiftTutorialTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D930492B1195AF005631EE /* SwiftTutorialTableVC.swift */; };
 		CFEBCBE6C276D9C3E17A1332 /* Pods_PureSwiftApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 593ADC9B8FE38DCCDBA61A91 /* Pods_PureSwiftApp.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		334EF6612B11C812007409EE /* SwiftString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftString.swift; sourceTree = "<group>"; };
+		334EF6632B11C86D007409EE /* SwiftArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftArray.swift; sourceTree = "<group>"; };
+		334EF66B2B11F471007409EE /* SwiftStruct.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftStruct.swift; sourceTree = "<group>"; };
+		334EF66D2B11FC00007409EE /* Mems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mems.swift; sourceTree = "<group>"; };
+		334EF66F2B11FC3A007409EE /* MemsUsage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemsUsage.swift; sourceTree = "<group>"; };
 		339BE8FC2B0DD82E001D32BA /* PureSwiftApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PureSwiftApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		339BE8FF2B0DD82E001D32BA /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		339BE9012B0DD82E001D32BA /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -31,6 +43,8 @@
 		339BE9162B0DE119001D32BA /* SwiftVersionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftVersionVC.swift; sourceTree = "<group>"; };
 		339BE9182B0DE128001D32BA /* SwiftBasicVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftBasicVC.swift; sourceTree = "<group>"; };
 		339BE91B2B0DE592001D32BA /* SwiftSummaryVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftSummaryVC.swift; sourceTree = "<group>"; };
+		33D930452B11905B005631EE /* SwiftChapterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftChapterVC.swift; sourceTree = "<group>"; };
+		33D930492B1195AF005631EE /* SwiftTutorialTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTutorialTableVC.swift; sourceTree = "<group>"; };
 		593ADC9B8FE38DCCDBA61A91 /* Pods_PureSwiftApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PureSwiftApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		628994BF96B240FB2032F94D /* Pods-PureSwiftApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PureSwiftApp.debug.xcconfig"; path = "Target Support Files/Pods-PureSwiftApp/Pods-PureSwiftApp.debug.xcconfig"; sourceTree = "<group>"; };
 		C74CA4050ED1E753B1326CB4 /* Pods-PureSwiftApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PureSwiftApp.release.xcconfig"; path = "Target Support Files/Pods-PureSwiftApp/Pods-PureSwiftApp.release.xcconfig"; sourceTree = "<group>"; };
@@ -69,10 +83,13 @@
 		339BE8FE2B0DD82E001D32BA /* PureSwiftApp */ = {
 			isa = PBXGroup;
 			children = (
-				339BE9132B0DE034001D32BA /* 关于Swift */,
-				339BE9142B0DE034001D32BA /* 版本兼容性 */,
-				339BE9152B0DE034001D32BA /* Swift初见 */,
-				339BE91A2B0DE3AC001D32BA /* Swift教程 */,
+				33D9303E2B1185AA005631EE /* SwiftLanguage5.7 */,
+				33D930422B118D6D005631EE /* SwiftAdvanced */,
+				33D930412B118D6D005631EE /* SwiftTips */,
+				33D930402B118D6D005631EE /* SwiftFunctionalProgramming */,
+				33D930432B118D6E005631EE /* SwiftUIAndCombine */,
+				33D9303F2B118D6D005631EE /* SwiftOptimizingCollections */,
+				33D930442B118D6E005631EE /* SwiftAppArchitecture */,
 				339BE8FF2B0DD82E001D32BA /* AppDelegate.swift */,
 				339BE9012B0DD82E001D32BA /* SceneDelegate.swift */,
 				339BE9052B0DD82E001D32BA /* Main.storyboard */,
@@ -103,6 +120,11 @@
 			isa = PBXGroup;
 			children = (
 				339BE9182B0DE128001D32BA /* SwiftBasicVC.swift */,
+				334EF6612B11C812007409EE /* SwiftString.swift */,
+				334EF66B2B11F471007409EE /* SwiftStruct.swift */,
+				334EF6632B11C86D007409EE /* SwiftArray.swift */,
+				334EF66F2B11FC3A007409EE /* MemsUsage.swift */,
+				334EF66D2B11FC00007409EE /* Mems.swift */,
 			);
 			path = "Swift初见";
 			sourceTree = "<group>";
@@ -110,9 +132,64 @@
 		339BE91A2B0DE3AC001D32BA /* Swift教程 */ = {
 			isa = PBXGroup;
 			children = (
+				33D930492B1195AF005631EE /* SwiftTutorialTableVC.swift */,
 				339BE91B2B0DE592001D32BA /* SwiftSummaryVC.swift */,
+				33D930452B11905B005631EE /* SwiftChapterVC.swift */,
 			);
 			path = "Swift教程";
+			sourceTree = "<group>";
+		};
+		33D9303E2B1185AA005631EE /* SwiftLanguage5.7 */ = {
+			isa = PBXGroup;
+			children = (
+				339BE9132B0DE034001D32BA /* 关于Swift */,
+				339BE9142B0DE034001D32BA /* 版本兼容性 */,
+				339BE9152B0DE034001D32BA /* Swift初见 */,
+				339BE91A2B0DE3AC001D32BA /* Swift教程 */,
+			);
+			path = SwiftLanguage5.7;
+			sourceTree = "<group>";
+		};
+		33D9303F2B118D6D005631EE /* SwiftOptimizingCollections */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SwiftOptimizingCollections;
+			sourceTree = "<group>";
+		};
+		33D930402B118D6D005631EE /* SwiftFunctionalProgramming */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SwiftFunctionalProgramming;
+			sourceTree = "<group>";
+		};
+		33D930412B118D6D005631EE /* SwiftTips */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SwiftTips;
+			sourceTree = "<group>";
+		};
+		33D930422B118D6D005631EE /* SwiftAdvanced */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SwiftAdvanced;
+			sourceTree = "<group>";
+		};
+		33D930432B118D6E005631EE /* SwiftUIAndCombine */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SwiftUIAndCombine;
+			sourceTree = "<group>";
+		};
+		33D930442B118D6E005631EE /* SwiftAppArchitecture */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SwiftAppArchitecture;
 			sourceTree = "<group>";
 		};
 		5DC3C18ED18117D4B74F47DA /* Frameworks */ = {
@@ -249,10 +326,17 @@
 			files = (
 				339BE9042B0DD82E001D32BA /* AboutSwiftVC.swift in Sources */,
 				339BE9002B0DD82E001D32BA /* AppDelegate.swift in Sources */,
+				33D9304A2B1195AF005631EE /* SwiftTutorialTableVC.swift in Sources */,
+				334EF66E2B11FC00007409EE /* Mems.swift in Sources */,
 				339BE9192B0DE128001D32BA /* SwiftBasicVC.swift in Sources */,
+				33D930462B11905B005631EE /* SwiftChapterVC.swift in Sources */,
 				339BE9022B0DD82E001D32BA /* SceneDelegate.swift in Sources */,
 				339BE9172B0DE119001D32BA /* SwiftVersionVC.swift in Sources */,
+				334EF66C2B11F471007409EE /* SwiftStruct.swift in Sources */,
 				339BE91C2B0DE592001D32BA /* SwiftSummaryVC.swift in Sources */,
+				334EF6702B11FC3A007409EE /* MemsUsage.swift in Sources */,
+				334EF6622B11C812007409EE /* SwiftString.swift in Sources */,
+				334EF6642B11C86D007409EE /* SwiftArray.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
