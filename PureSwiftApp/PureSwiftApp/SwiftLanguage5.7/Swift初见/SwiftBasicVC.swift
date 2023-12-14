@@ -9,13 +9,18 @@ import UIKit
 import WebKit
 import SnapKit
 
+class TempClass {
+    var age: Int = 0
+}
+
 class SwiftBasicVC: UIViewController {
+    var optinalVarTest: TempClass!
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
 //        self.testLetAndVar()
-//        self.testOptionalUsage()
+        self.testOptionalUsage()
 //        self.testGuard(person: ["name": "John", "location": "ShangHai"])
 //        self.testAvailableCheck()
 //        self.testTypeAlias()
@@ -55,7 +60,7 @@ class SwiftBasicVC: UIViewController {
 //        self.testDefer()
 //        self.testGenerics()
         
-        SwiftMethodDispatcher.testSwiftMethodDispatch()
+//        SwiftMethodDispatcher.testSwiftMethodDispatch()
 
         
         let webVC = WKWebView()
@@ -160,6 +165,10 @@ class SwiftBasicVC: UIViewController {
         // optionString 的类型依然是 "String?"，assumedString 也没有被强制解析。
         let optionString = assumedString
         print("optionalString: \(optionString!)")
+        
+        print("self.optinalVarTest: \(self.optinalVarTest ?? TempClass())")  // self.optinalVarTest 也是可选类型
+        // 下面隐式解析，如果 self.optinalVarTest 为 nil，则会运行时报错崩溃
+        print("self.optinalVarTest: \(self.optinalVarTest.age)")
         
         
         // ?? 运算符
