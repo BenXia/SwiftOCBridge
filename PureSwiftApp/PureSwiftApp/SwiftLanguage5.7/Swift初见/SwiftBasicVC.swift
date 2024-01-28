@@ -20,14 +20,15 @@ class SwiftBasicVC: UIViewController {
         super.viewDidLoad()
         
 //        self.testLetAndVar()
-        self.testOptionalUsage()
+//        self.testSingleton()
+//        self.testOptionalUsage()
 //        self.testGuard(person: ["name": "John", "location": "ShangHai"])
 //        self.testAvailableCheck()
 //        self.testTypeAlias()
         
         
 //        self.testMultiLineString()
-//        SwiftString.characterSetIntroduce()
+        SwiftString.characterSetIntroduce()
 //        SwiftString.memoryLayoutIntroduce()
 //        SwiftStruct.memoryLayoutIntroduce()
 //        SwiftArray.memoryLayoutIntroduce()
@@ -69,6 +70,76 @@ class SwiftBasicVC: UIViewController {
         webVC.snp.makeConstraints { make in
             make.edges.equalTo(self.view.snp_margins)
         }
+    }
+    
+    func testSingleton() {
+//        // 方法一：
+//        // 默认属性或者惰性初始化
+//        import Foundation
+//
+//        final class SingleOne {
+//            //单例
+//            static let sharedSingleOne = SingleOne()
+//            //或者惰性初始化
+//            //static let sharedSingleOne: SingleOne = { return SingleOne() }()
+//
+//            private init() {}
+//        }
+//
+//
+//
+//        // 方法二：
+//        // struct静态变量+计算属性
+//        final class SingleTwo {
+//            static var sharedInstance: SingleTwo {
+//                struct Static {
+//                    static let instance: SingleTwo = SingleTwo()
+//                }
+//                
+//                return Static.instance
+//            }
+//            
+//            private init() {}
+//        }
+//
+//
+//
+//
+//        // 方法三：
+//        // 全局的常量+计算属性
+//        private let single = SingleThree()
+//
+//        final class SingleThree {
+//            static var sharedInstance: SingleThree {
+//                return single
+//            }
+//            
+//            private init() {}
+//        }
+//
+//
+//
+//        // 方法四：现在不可用了
+//        // ⚠️：Swift3 之后的 dispatch_once 不再可用，请使用上面的3种方法
+//        final class SingleFour {
+//            static func sharedSingleFour() -> SingleFour {
+//                struct Singleton {
+//                    static var onceToken: dispatch_once_t = 0
+//                    static var single: SingleFour?
+//                }
+//                
+//                dispatch_once(&Singleton.onceToken, {
+//                    Singleton.single = SingleFour()
+//                })
+//                
+//                return Singleton.single!
+//            }
+//            
+//            private init() {}
+//        }
+//
+//        // class只能用在class类型 但是static 在结构体 class enum 都能用
+//        // 如果用在class类型里面 static ＝ final class
     }
     
     func testLetAndVar() {

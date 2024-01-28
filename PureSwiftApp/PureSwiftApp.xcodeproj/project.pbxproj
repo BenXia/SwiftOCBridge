@@ -35,7 +35,18 @@
 		CFEBCBE6C276D9C3E17A1332 /* Pods_PureSwiftApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 593ADC9B8FE38DCCDBA61A91 /* Pods_PureSwiftApp.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		3319DDF12B66374300400D49 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3319DDED2B66374300400D49 /* PokeMaster.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4BFE512922F8018800500B72;
+			remoteInfo = PokeMaster;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		3319DDED2B66374300400D49 /* PokeMaster.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PokeMaster.xcodeproj; path = "PokeMaster-Finished/PokeMaster.xcodeproj"; sourceTree = "<group>"; };
 		3346DF572B14670300218B24 /* NFD-NFC.webp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "NFD-NFC.webp"; sourceTree = "<group>"; };
 		3346DF582B14670300218B24 /* Canonical Equivalence.webp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Canonical Equivalence.webp"; sourceTree = "<group>"; };
 		3346DF592B14670300218B24 /* Compatibility Equivalence.webp */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Compatibility Equivalence.webp"; sourceTree = "<group>"; };
@@ -80,6 +91,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3319DDEE2B66374300400D49 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				3319DDF22B66374300400D49 /* PokeMaster.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		339BE8F32B0DD82E001D32BA = {
 			isa = PBXGroup;
 			children = (
@@ -208,6 +227,7 @@
 		33D930432B118D6E005631EE /* SwiftUIAndCombine */ = {
 			isa = PBXGroup;
 			children = (
+				3319DDED2B66374300400D49 /* PokeMaster.xcodeproj */,
 			);
 			path = SwiftUIAndCombine;
 			sourceTree = "<group>";
@@ -284,12 +304,28 @@
 			mainGroup = 339BE8F32B0DD82E001D32BA;
 			productRefGroup = 339BE8FD2B0DD82E001D32BA /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 3319DDEE2B66374300400D49 /* Products */;
+					ProjectRef = 3319DDED2B66374300400D49 /* PokeMaster.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				339BE8FB2B0DD82E001D32BA /* PureSwiftApp */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		3319DDF22B66374300400D49 /* PokeMaster.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = PokeMaster.app;
+			remoteRef = 3319DDF12B66374300400D49 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		339BE8FA2B0DD82E001D32BA /* Resources */ = {
