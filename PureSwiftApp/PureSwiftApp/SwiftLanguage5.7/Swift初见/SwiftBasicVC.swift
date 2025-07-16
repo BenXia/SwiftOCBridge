@@ -13,6 +13,12 @@ class TempClass {
     var age: Int = 0
 }
 
+// 如果这个地方写成 @objc protocol P 会报错，因为两个方法转换成的 OC 方法名都一样
+protocol P {
+    func doSomething(completionHandler: @escaping (Bool) -> Void)
+    func doSomething() async -> Bool
+}
+
 class SwiftBasicVC: UIViewController {
     var optinalVarTest: TempClass!
 
