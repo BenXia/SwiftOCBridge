@@ -55,7 +55,7 @@ class SwiftBasicVC: UIViewController {
 //        self.testObjectAndClass()
         
 //        self.testOptionalChain()
-//        self.testAsync()
+        self.testAsync()
 //        self.testProtocolExtension()
 //        self.testErrorHandle()
 //        self.testDefer()
@@ -1197,16 +1197,25 @@ I said "I have \#(apples) apples."\#nAnd then I\#
     
     func testAsync() {
         // 使用 Task 从同步代码中调用异步函数且不等待它们返回结果
+
+        // 继承自 UIViewController 的 ViewController 在 @MainActor 域中，因此 viewDidLoad 的运行环境也在同一隔离域里。
+        // 通过 Task 新建的任务，将继承 actor 的运行环 境，也就是说，它的闭包也运行在 MainActor 隔离域中的，这也是可以同步调用 updateUI 的原因。
+        // 如果我们将这里的 Task.init 换为 Task.detached 的话，闭包的运行将无视原有隔离域。此时，想要调用 updateUI，我们需要添加 await 以确保 actor 跳跃能够发生。
         
         Task {
             await connectUser(to: "primary")
             print("此处依然是在主线程执行")
+            updateUI()
         }
         
         print("不阻塞当前的函数继续执行，返回结果")
         
         // 更多 async/await 替代传统的 Result 闭包回调的兼容性方案
         // 参考：https://zhuanlan.zhihu.com/p/620981473
+    }
+
+    func updateUI() {
+        print("此方法必须在主线程运行")
     }
 
     func connectUser(to server: String) async {

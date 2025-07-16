@@ -43,10 +43,11 @@ class SwiftString {
         let string: String = "👩‍👩‍👦‍👦"
         // string.count 是人看到的符号的个数
         print("string count: \(string.count)")
+        print("string.unicodeScalars.count: \(string.unicodeScalars.count)")
         print("string.utf16: \(string.utf16)")
         print("string.utf16.count: \(string.utf16.count)")
         print("string.utf8.count: \(string.utf8.count)")
-        
+
         let nsstring: NSString = "👩‍👩‍👦‍👦"
         // nsstring.length 是 utf16 编码占用的码元个数
         print("nsstring length: \(nsstring.length)")
