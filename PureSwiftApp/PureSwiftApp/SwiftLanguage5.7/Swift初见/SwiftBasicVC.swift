@@ -9,6 +9,12 @@ import UIKit
 import WebKit
 import SnapKit
 
+fileprivate func CustomPrint(_ items: Any..., separator: String = " ", terminator: String = "\n") {
+    let threadInfo = Thread.current.description
+    let output = items.map { "\($0)" }.joined(separator: separator)
+    print("\(threadInfo): \(output)", terminator: terminator)
+}
+
 class TempClass {
     var age: Int = 0
 }
@@ -17,6 +23,42 @@ class TempClass {
 protocol P {
     func doSomething(completionHandler: @escaping (Bool) -> Void)
     func doSomething() async -> Bool
+}
+
+@globalActor actor MyActor: GlobalActor {
+    // 实现 GlobalActor 协议当中的 associatedtype
+    public typealias ActorType = MyActor
+
+    // 实现 GlobalActor 当中的 shared，返回一个全局共享的 MyActor 实例
+    static let shared: MyActor = MyActor()
+
+    private static let _sharedExecutor = MyExecutor()
+
+    // 实现 GlobalActor 当中的 sharedUnownedExecutor，返回自己的调度器
+    static let sharedUnownedExecutor: UnownedSerialExecutor = _sharedExecutor.asUnownedSerialExecutor()
+
+    // 显示实现 Actor 协议当中的调度器，避免让编译器自动生成
+    let unownedExecutor: UnownedSerialExecutor = sharedUnownedExecutor
+}
+
+final class MyExecutor : SerialExecutor {
+    // 自定义 DispatchQueue，用于真正地调度异步函数
+    private static let dispatcher: DispatchQueue = DispatchQueue(label: "MyActor")
+
+    // 需要调度时，Swift 的协程运行时会创建一个 UnownedJob 实例调用 enqueue 进行调度
+    func enqueue(_ job: UnownedJob) {
+        CustomPrint("enqueue")
+        MyExecutor.dispatcher.async {
+            // 执行这个 job
+//            job._runSynchronously(on: self.asUnownedSerialExecutor())
+            job.runSynchronously(on: self.asUnownedSerialExecutor())
+        }
+    }
+
+    // 获取 unowned 引用，得到 UnownedSerialExecutor 实例
+    func asUnownedSerialExecutor() -> UnownedSerialExecutor {
+        UnownedSerialExecutor(ordinary: self)
+    }
 }
 
 class SwiftBasicVC: UIViewController {
@@ -61,7 +103,8 @@ class SwiftBasicVC: UIViewController {
 //        self.testObjectAndClass()
         
 //        self.testOptionalChain()
-        self.testAsync()
+//        self.testAsync()
+        self.testActor()
 //        self.testProtocolExtension()
 //        self.testErrorHandle()
 //        self.testDefer()
@@ -1201,36 +1244,13 @@ I said "I have \#(apples) apples."\#nAnd then I\#
         print("sideLength: \(sideLength ?? 0)")
     }
     
-    func testAsync() {
-        // 使用 Task 从同步代码中调用异步函数且不等待它们返回结果
-
-        // 继承自 UIViewController 的 ViewController 在 @MainActor 域中，因此 viewDidLoad 的运行环境也在同一隔离域里。
-        // 通过 Task 新建的任务，将继承 actor 的运行环 境，也就是说，它的闭包也运行在 MainActor 隔离域中的，这也是可以同步调用 updateUI 的原因。
-        // 如果我们将这里的 Task.init 换为 Task.detached 的话，闭包的运行将无视原有隔离域。此时，想要调用 updateUI，我们需要添加 await 以确保 actor 跳跃能够发生。
-        
-        Task {
-            await connectUser(to: "primary")
-            print("此处依然是在主线程执行")
-            updateUI()
-        }
-        
-        print("不阻塞当前的函数继续执行，返回结果")
-        
-        // 更多 async/await 替代传统的 Result 闭包回调的兼容性方案
-        // 参考：https://zhuanlan.zhihu.com/p/620981473
-    }
-
-    func updateUI() {
-        print("此方法必须在主线程运行")
-    }
-
     func connectUser(to server: String) async {
         // 使用 async let 来调用异步函数，并让其与其它异步函数并行运行。
         // 使用 await 以使用该异步函数返回的值。
         async let userID = fetchUserID(from: server)
         async let username = fetchUsername(from: server)
         let greeting = await "Hello \(username), user ID \(userID)"
-        print(greeting)
+        CustomPrint(greeting)
     }
     
     // 使用 async 标记异步运行的函数
@@ -1248,6 +1268,99 @@ I said "I have \#(apples) apples."\#nAnd then I\#
             return "John Appleseed"
         }
         return "Guest"
+    }
+    
+    func testAsync() {
+        // 使用 Task 从同步代码中调用异步函数且不等待它们返回结果
+
+        // 继承自 UIViewController 的 ViewController 在 @MainActor 域中，因此 viewDidLoad 的运行环境也在同一隔离域里。
+        // 通过 Task 新建的任务，将继承 actor 的运行环 境，也就是说，它的闭包也运行在 MainActor 隔离域中的，这也是可以同步调用 updateUI 的原因。
+        // 如果我们将这里的 Task.init 换为 Task.detached 的话，闭包的运行将无视原有隔离域。此时，想要调用 updateUI，我们需要添加 await 以确保 actor 跳跃能够发生。
+        
+        Task {
+            await connectUser(to: "primary")
+            CustomPrint("此处依然是在主线程执行")
+            updateUI()
+        }
+        
+        CustomPrint("不阻塞当前的函数继续执行，返回结果")
+        
+        // 更多 async/await 替代传统的 Result 闭包回调的兼容性方案
+        // 参考：https://zhuanlan.zhihu.com/p/620981473
+    }
+
+    func updateUI() {
+        CustomPrint("此方法必须在主线程运行")
+    }
+
+    @MainActor func calledOnMain() {
+        CustomPrint("onMain")
+    }
+
+    nonisolated func runOnMain(block: @MainActor @escaping () async -> Void) async {
+        CustomPrint("runOnMain before")
+        await block()
+        CustomPrint("runOnMain after")
+    }
+
+    @MyActor func calledOnMyExecutor() {
+        CustomPrint("onMyExecutor")
+    }
+
+    nonisolated func runOnMyExecutor(block: @MyActor @escaping () async -> Void) async {
+        CustomPrint("runOnMyExecutor start")
+        await block()
+        CustomPrint("runOnMyExecutor end")
+    }
+
+    func testActor() {
+        // 测试1:
+//        Task { () -> Int in
+//            CustomPrint("task start")
+//            await calledOnMain()
+//            CustomPrint("task end")
+//            return 1
+//        }
+        // 测试2:
+//        Task.detached { () -> Int in
+//            CustomPrint("task start")
+//            await self.runOnMain {
+//                CustomPrint("on main")
+//            }
+//            CustomPrint("task end")
+//            return 1
+//        }
+
+        // 测试3:  actor 中串行调度器与 Task、await 中的全局并行调度器，都不与具体工作线程有绑定关系（只有 MainActor 强制在主线程调度执行）
+        //        协作式线程池中的工作线程都是通过（事件驱动 + 工作窃取）（借助本地队列+全局队列）并发处理任务实现调度的
+//        Task.detached { () -> Int in
+//            CustomPrint("task start")
+//            await self.calledOnMyExecutor()
+//
+//            await self.runOnMyExecutor {
+//                CustomPrint("on MyExecutor before sleep")
+//                await Task.sleep(1000_000_000)
+//                CustomPrint("on MyExecutor after sleep")
+//            }
+//            CustomPrint("task end")
+//            return 1
+//        }
+
+        // 测试4: Task 的构造时 init 和 detached 两种方式构造实例，前者会继承外部的上下文，包括 actor、TaskLocal 等，后者则不会。
+        Task.detached { () -> Int in
+            CustomPrint("task start")
+            await self.runOnMain {
+                await Task {
+                    CustomPrint("task in runOnMain")
+                }.value
+
+                await Task.detached {
+                    CustomPrint("detached task in runOnMain")
+                }.value
+            }
+            CustomPrint("task end")
+            return 1
+        }
     }
     
     func testProtocolExtension() {
