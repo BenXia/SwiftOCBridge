@@ -110,7 +110,7 @@ class SwiftBasicVC: UIViewController {
 //        self.testDefer()
 //        self.testGenerics()
         
-//        SwiftMethodDispatcher.testSwiftMethodDispatch()
+        SwiftMethodDispatcher.testSwiftMethodDispatch()
 
         
         let webVC = WKWebView()
@@ -1333,34 +1333,40 @@ I said "I have \#(apples) apples."\#nAnd then I\#
 
         // 测试3:  actor 中串行调度器与 Task、await 中的全局并行调度器，都不与具体工作线程有绑定关系（只有 MainActor 强制在主线程调度执行）
         //        协作式线程池中的工作线程都是通过（事件驱动 + 工作窃取）（借助本地队列+全局队列）并发处理任务实现调度的
-//        Task.detached { () -> Int in
-//            CustomPrint("task start")
-//            await self.calledOnMyExecutor()
-//
-//            await self.runOnMyExecutor {
-//                CustomPrint("on MyExecutor before sleep")
-//                await Task.sleep(1000_000_000)
-//                CustomPrint("on MyExecutor after sleep")
-//            }
-//            CustomPrint("task end")
-//            return 1
-//        }
-
-        // 测试4: Task 的构造时 init 和 detached 两种方式构造实例，前者会继承外部的上下文，包括 actor、TaskLocal 等，后者则不会。
         Task.detached { () -> Int in
             CustomPrint("task start")
-            await self.runOnMain {
-                await Task {
-                    CustomPrint("task in runOnMain")
-                }.value
+            await self.calledOnMyExecutor()
 
-                await Task.detached {
-                    CustomPrint("detached task in runOnMain")
-                }.value
+            CustomPrint("task middle")
+            
+            await self.runOnMyExecutor {
+                CustomPrint("on MyExecutor before sleep")
+                do {
+                    try await Task.sleep(nanoseconds: 1000_000_000)
+                } catch {
+                    CustomPrint("on MyExecutor canceld")
+                }
+                CustomPrint("on MyExecutor after sleep")
             }
             CustomPrint("task end")
             return 1
         }
+
+        // 测试4: Task 的构造时 init 和 detached 两种方式构造实例，前者会继承外部的上下文，包括 actor、TaskLocal 等，后者则不会。
+//        Task.detached { () -> Int in
+//            CustomPrint("task start")
+//            await self.runOnMain {
+//                await Task {
+//                    CustomPrint("task in runOnMain")
+//                }.value
+//
+//                await Task.detached {
+//                    CustomPrint("detached task in runOnMain")
+//                }.value
+//            }
+//            CustomPrint("task end")
+//            return 1
+//        }
     }
     
     func testProtocolExtension() {
