@@ -246,10 +246,31 @@ class SwiftString {
 
         // 常见的 String 字符串操作
         let cafee = "caf\u{0065}\u{0301}"
-
         let beg = cafee.startIndex
         let end = cafee.index(beg, offsetBy: 3)
         print("cafee[beg ..< end]: \(cafee[beg ..< end])")
+
+        var cafeeCharacterIterator = cafee.enumerated().makeIterator()
+        while let (offset, ch) = cafeeCharacterIterator.next() {
+            print("offset: \(offset), ch: \(ch)");
+        }
+
+        for ch in cafee {
+            print("ch: \(ch)")
+        }
+        // 上面的等效于
+        var chIterator = cafee.makeIterator()
+        while let ch = chIterator.next() {
+            print("ch: \(ch)")
+        }
+
+        // ⚠️：String/Substring 的字符遍历使用下面这种方式方便 characters 视图拿到 Character 和 Index 信息，内部也能方便嵌套遍历和Slice操作
+        var chIndex = cafee.startIndex
+        while chIndex != cafee.endIndex {
+            print("\(cafee[chIndex])")
+            chIndex = cafee.index(after: chIndex)
+        }
+
 
         // 不能写成 cafee[0 ..< 3]
         //String(cafee.characters.prefix(3))
