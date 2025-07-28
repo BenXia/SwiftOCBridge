@@ -84,7 +84,7 @@ class SwiftBasicVC: UIViewController {
 
 //        self.testArrayDict()
 //        self.testForInLoop()
-//        self.testSwitchUsage()
+        self.testSwitchUsage()
 
 
 //        self.testFuncOverloading()  // 带默认参数的两个函数前缀重复竟然不报错
@@ -104,13 +104,13 @@ class SwiftBasicVC: UIViewController {
         
 //        self.testOptionalChain()
 //        self.testAsync()
-        self.testActor()
+//        self.testActor()
 //        self.testProtocolExtension()
 //        self.testErrorHandle()
 //        self.testDefer()
 //        self.testGenerics()
         
-        SwiftMethodDispatcher.testSwiftMethodDispatch()
+//        SwiftMethodDispatcher.testSwiftMethodDispatch()
 
         
         let webVC = WKWebView()
@@ -636,7 +636,7 @@ I said "I have \#(apples) apples."\#nAnd then I\#
         
         
         // 匹配同时配合 where 做额外条件判断
-        let yetAnotherPoint = (Int(arc4random()%1 + 1), Int(arc4random()%1 - 1))
+        let yetAnotherPoint = (Int(arc4random()%1 + 1), Int(Int(arc4random()%1) - 1))
         switch yetAnotherPoint {
         case let (x, y) where x == y:
             print("(\(x), \(y)) is on the line x == y")
@@ -731,6 +731,67 @@ I said "I have \#(apples) apples."\#nAnd then I\#
                 square += diceRoll
                 print("+\(diceRoll)", terminator: "")
             }
+        }
+
+
+        // 使用 if 写法 - 可选类型解析（可选项）模式
+        let optionNum: Int? = 3
+        if let x = optionNum {
+            print("optionNum = .some(\(x))")
+        }
+        if case let x? = optionNum {
+            print("optionNum = .some(\(x))")
+        }
+        if case .some(let x) = optionNum {
+            print("optionNum = .some(\(x))")
+        }
+//        if case let x = optionNum {
+//            print("error syntax x: \(x)")
+//        }
+        let arrayOfOptionalInts: [Int?] = [nil, 2, 3, nil, 5]
+        for case let number? in arrayOfOptionalInts {
+            print("found not nil number: \(number)")
+        }
+        // 使用 if 写法 - 类型解析匹配模式
+        let squareShape = Square(sideLength: 4, name: "square object")
+        if squareShape is NamedShape {
+            print("squareShape is NamedShape")
+        }
+        if let shape = squareShape as? NamedShape {
+            print("squareShape is NamedShape: \(shape)")
+        }
+        if case let shape? = squareShape as? NamedShape {
+            print("squareShape is NamedShape: \(shape)")
+        }
+        if let shape = squareShape as? Shape {
+            print("squareShape is Shape: \(shape)")
+        }
+        if case let shape? = squareShape as? Shape {
+            print("squareShape is Shape: \(shape)")
+        }
+        // 使用 if 写法 - 区间匹配模式
+        let num = 3
+        if case 0...5 = num {
+            print("0<=\(num)<=5")
+        }
+//        if case let 0...5 = num {
+//            print("error syntax")
+//        }
+        // 使用 if 写法 - 元组匹配模式
+        let tuple:(Int?, Int?) = (1, 2)
+        let tuple2:(Int?, Int?) = (1, nil)
+        if case let (x?, y?) = tuple2 {
+            print("tuple: (\(x), \(y))")
+        }
+        for case (let x?, let y?) in [tuple, tuple2] {
+            print("tuple element: (\(x), \(y))")
+        }
+        for case let (x?, y?) in [tuple, tuple2] {
+            print("error syntax (\(x), \(y))")
+        }
+        // 使用 if 写法 - 解析结合条件匹配模式
+        for case let (x?, y) in [tuple, tuple2] where (0...5).contains(x) {
+            print("tuple element: (\(String(describing: x)), \(String(describing: y)))")
         }
     }
     
