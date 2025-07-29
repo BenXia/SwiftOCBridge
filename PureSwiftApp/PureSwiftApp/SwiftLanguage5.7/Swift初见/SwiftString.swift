@@ -263,7 +263,22 @@ class SwiftString {
         while let ch = chIterator.next() {
             print("ch: \(ch)")
         }
-
+        
+        var map = [Int:Int]()
+        map[0] = 1
+        map[2] = 3
+        map[1] = 2
+        // map 是无序的，迭代不能保证按照上述的赋值顺序
+        for (key, value) in map {
+            print("key: \(key) -> value: \(value)")
+        }
+        
+        let enumerator = map.enumerated()
+        for (offset, value) in enumerator {
+            print("offset: \(offset) -> value: \(value)")
+        }
+        
+        
         // ⚠️：String/Substring 的字符遍历使用下面这种方式方便 characters 视图拿到 Character 和 Index 信息，内部也能方便嵌套遍历和Slice操作
         var chIndex = cafee.startIndex
         while chIndex != cafee.endIndex {

@@ -69,6 +69,7 @@ class SwiftBasicVC: UIViewController {
         
 //        self.testLetAndVar()
 //        self.testSingleton()
+        self.testSort()
 //        self.testOptionalUsage()
 //        self.testGuard(person: ["name": "John", "location": "ShangHai"])
 //        self.testAvailableCheck()
@@ -190,7 +191,30 @@ class SwiftBasicVC: UIViewController {
 //        // class只能用在class类型 但是static 在结构体 class enum 都能用
 //        // 如果用在class类型里面 static ＝ final class
     }
-    
+
+    func testSort() {
+        var iArray = [Int]()
+        iArray.append(contentsOf: [3, 2, 1])
+        print("iArray before sort: \(iArray)")
+        iArray.sort()
+        print("iArray after default sort: \(iArray)")
+        iArray.sort{ $0 > $1 }
+        print("iArray after custom sort: \(iArray)")
+        let sortediArray = iArray.sorted{ $0 < $1 }
+        print("iArray after custom sorted: \(sortediArray)")
+
+        // Element 为 Tuple，Tuple 不支持 Comparable，所以不能使用 sort 方法
+        var tuples = [(Int, Int)]()
+        tuples.append(contentsOf: [(3, 1), (2, 2), (1, 3)])
+        print("tuples before sort: \(tuples)")
+//        tuples.sort()
+//        print("tuples after default sort: \(tuples)")
+        tuples.sort{ $0.0 > $1.0 }
+        print("tuples after custom sort: \(tuples)")
+        let sortedTuples = tuples.sorted{ $0.0 < $1.0 }
+        print("tuples after custom sorted: \(sortedTuples)")
+    }
+
     func testLetAndVar() {
         // 总结:
         // let不管是值类型还是引用类型就相当于在最后加了个修饰符 const
