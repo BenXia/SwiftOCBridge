@@ -69,7 +69,7 @@ class SwiftBasicVC: UIViewController {
         
 //        self.testLetAndVar()
 //        self.testSingleton()
-        self.testSort()
+//        self.testSort()
 //        self.testOptionalUsage()
 //        self.testGuard(person: ["name": "John", "location": "ShangHai"])
 //        self.testAvailableCheck()
@@ -77,15 +77,15 @@ class SwiftBasicVC: UIViewController {
         
         
 //        self.testMultiLineString()
-        SwiftString.characterSetIntroduce()
+//        SwiftString.characterSetIntroduce()
 //        SwiftString.memoryLayoutIntroduce()
 //        SwiftStruct.memoryLayoutIntroduce()
 //        SwiftArray.memoryLayoutIntroduce()
 
 
-//        self.testArrayDict()
+        self.testArrayDict()
 //        self.testForInLoop()
-        self.testSwitchUsage()
+//        self.testSwitchUsage()
 
 
 //        self.testFuncOverloading()  // 带默认参数的两个函数前缀重复竟然不报错
