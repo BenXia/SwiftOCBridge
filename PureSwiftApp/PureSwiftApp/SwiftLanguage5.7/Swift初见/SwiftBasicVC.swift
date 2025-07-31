@@ -78,12 +78,13 @@ class SwiftBasicVC: UIViewController {
         
 //        self.testMultiLineString()
 //        SwiftString.characterSetIntroduce()
+        SwiftString.characterIntStringTransferIntroduce()
 //        SwiftString.memoryLayoutIntroduce()
 //        SwiftStruct.memoryLayoutIntroduce()
 //        SwiftArray.memoryLayoutIntroduce()
 
 
-        self.testArrayDict()
+        self.testArrayDictSet()
 //        self.testForInLoop()
 //        self.testSwitchUsage()
 
@@ -412,7 +413,7 @@ I said "I have \#(apples) apples."\#nAnd then I\#
         print(quotation4)
     }
     
-    func testArrayDict() {
+    func testArrayDictSet() {
         // 编译器类型推断
         var shoppingList = ["catfish", "water", "tulips", "blue paint"]
         shoppingList[1] = "bottle of water"
@@ -439,6 +440,15 @@ I said "I have \#(apples) apples."\#nAnd then I\#
         print(occupations2)
         print("occupations2[\"Hello\"]: \((occupations2["Hello"] ?? "Optional.none") ?? "Optional.Optional.none")")
         print("occupations2[\"world\"]: \((occupations2["world"] ?? "Optional.none") ?? "Optional.Optional.none")")
+
+
+        var nums = [1, 2, 3, 4, 5]
+        var set = Set(nums)
+        set.remove(1)
+        set.remove(6)
+        set.insert(2)
+        set.insert(7)
+        print("set: \(set)")
     }
     
     func testForInLoop() {

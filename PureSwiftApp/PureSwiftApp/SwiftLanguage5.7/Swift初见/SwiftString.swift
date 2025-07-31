@@ -85,7 +85,6 @@ class SwiftString {
         cafeeStr.utf8.forEach { print($0) }
         cafeeStr.utf16.forEach { print($0) }
 
-        
         let cafeeStrUnicodeScalarsDropLast: Substring.UnicodeScalarView = cafeeStr.unicodeScalars.dropLast()
         cafeeStrUnicodeScalarsDropLast.forEach { print($0) }
         // 转换回 String, 不会有失败的情况
@@ -325,6 +324,35 @@ class SwiftString {
         print("resultAfterSplit: \(resultAfterSplit)")
     }
     
+    static func characterIntStringTransferIntroduce() {
+        // ⚠️：String、Character[]、SubString
+        let str = "012ABCabc"
+        let chArray = [Character](str)
+        let str2 = String(chArray)
+        let str3 = String(str[str.startIndex..<str.endIndex])
+        let str4 = String(chArray[0...])
+        let str5 = String(chArray[...2]) + str[str.index(str.startIndex, offsetBy: 3)...]
+        print("str: \(str)\nstr2: \(str2)\nstr3: \(str3)\nstr4: \(str4)\nstr5: \(str5)\n")
+
+        // ⚠️：String、Character、UnicodeScalars、UnicodeScalar!、UInt、Int
+        let strUnicodeScalars = str.unicodeScalars
+        let chUnicodeScalars = Character("A").unicodeScalars
+        print("str scalars: \(strUnicodeScalars)\nch scalars: \(chUnicodeScalars)\n")
+
+        let strUnicodeScalarsIntArray = strUnicodeScalars.map{ Int($0.value) }
+        let chUnicodeScalarsIntArray = chUnicodeScalars.map{ Int($0.value) }
+        print("str scalars values: \(strUnicodeScalarsIntArray)\nch scalars values: \(chUnicodeScalarsIntArray)\n")
+
+        // ⚠️：Character、UnicodeSaclars、UnicodeSaclar!、UInt、Int
+        // ⚠️：Int、UnicodeSaclar!、Character
+        // ⚠️：String、Character
+        let digitValue = Int(Character("3").unicodeScalars.first!.value) - 48
+        let digitCharacter = Character(UnicodeScalar(digitValue + 48)!)
+        let digitCharacter2 = Character("\(digitValue)")
+        print("digitValue: \(digitValue)\ndigitCharacter: \(digitCharacter)\ndigitCharacter2: \(digitCharacter2)\n")
+        print("digitCharacter2 == \"3\" : \(digitCharacter2 == "3")")
+    }
+
     static func memoryLayoutIntroduce() {
         //swift 中 string 变量在内存中是怎么存放的？
         //总结：
