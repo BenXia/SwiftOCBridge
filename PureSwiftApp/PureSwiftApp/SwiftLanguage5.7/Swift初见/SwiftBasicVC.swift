@@ -9,6 +9,48 @@ import UIKit
 import WebKit
 import SnapKit
 
+// Array默认不支持比较，需要自定义 Extension 实现比较逻辑
+// 1、自定义为按长度比较
+//extension Array: Comparable where Element: Comparable {
+//    public static func < (lhs: [Element], rhs: [Element]) -> Bool {
+//        return lhs.count < rhs.count
+//    }
+//}
+// 2、自定义为字典序比较
+extension Array: Comparable where Element: Comparable {
+    public static func < (lhs: [Element], rhs: [Element]) -> Bool {
+        for (l, r) in zip(lhs, rhs) {
+            if l < r { return true }
+            if l > r { return false }
+        }
+        return lhs.count < rhs.count // 处理前缀相同的情况
+    }
+}
+
+// 元组现在的 Swift 版本中已经默认支持比较了，不需要自定义 Extension 实现比较逻辑
+//extension (Int, String): Comparable {
+//    public static func < (lhs: (Int, String), rhs: (Int, String)) -> Bool {
+//        if lhs.0 != rhs.0 {
+//            return lhs.0 < rhs.0 // 先比较 Int
+//        }
+//        return lhs.1 < rhs.1     // 再比较 String
+//    }
+//
+//    public static func == (lhs: (Int, String), rhs: (Int, String)) -> Bool {
+//        return lhs.0 == rhs.0 && lhs.1 == rhs.1
+//    }
+//}
+
+// 全局操作符重载（不推荐：为任意元组重载 <，但会污染全局命名空间）
+func < <T1: Comparable, T2: Comparable>(lhs: (T1, T2), rhs: (T1, T2)) -> Bool {
+    if lhs.0 != rhs.0 { return lhs.0 > rhs.0 }
+    return lhs.1 > rhs.1
+}
+
+func > <T1: Comparable, T2: Comparable>(lhs: (T1, T2), rhs: (T1, T2)) -> Bool {
+    return !(lhs < rhs)
+}
+
 fileprivate func CustomPrint(_ items: Any..., separator: String = " ", terminator: String = "\n") {
     let threadInfo = Thread.current.description
     let output = items.map { "\($0)" }.joined(separator: separator)
@@ -84,8 +126,8 @@ class SwiftBasicVC: UIViewController {
 //        SwiftArray.memoryLayoutIntroduce()
 
 
-//        self.testArrayDictSet()
-        self.testForInLoop()
+        self.testArrayDictSet()
+//        self.testForInLoop()
 //        self.testSwitchUsage()
 
 
@@ -442,15 +484,48 @@ I said "I have \#(apples) apples."\#nAnd then I\#
         print("occupations2[\"world\"]: \((occupations2["world"] ?? "Optional.none") ?? "Optional.Optional.none")")
 
 
-        var nums = [1, 2, 3, 4, 5]
+        let nums = [1, 2, 3, 4, 5]
         var set = Set(nums)
         set.remove(1)
         set.remove(6)
         set.insert(2)
         set.insert(7)
         print("set: \(set)")
+
+
+        // Array默认不支持比较，需要自定义 Extension 实现比较逻辑
+        // 见文件头部的两种自定义比较逻辑。1、按照长度；2、按照字典序；
+        let a = [1, 2], b = [3]
+        print("[1, 2] < [3] = \(a < b)")
+
+
+        // 元组现在 swift 版本中已经默认支持比较
+        // 1、之前需要自定义 Extension 实现比较逻辑（见文件头部的自定义比较逻辑）
+        // 2、封装为具名类型（定义结构体，自动合成 Comparable）
+        // 3、为任意元组重载运算符 <，但会污染全局命名空间
+        let aTuple = (1, "Apple")
+        let bTuple = (2, "Banana")
+        // 头部的全局重载运算符，会覆盖默认的比较逻辑
+        print("(1, \"Apple\") < (2, \"Banana\") = \(aTuple < bTuple)")
+
+        struct Fruit: Comparable {
+            static func < (lhs: Fruit, rhs: Fruit) -> Bool {
+                if lhs.id != rhs.id {
+                    return lhs.id < rhs.id
+                }
+                return lhs.name < rhs.name
+            }
+            
+            var id: Int
+            var name: String
+        }
+
+        let aFruit = Fruit(id: 1, name: "Apple")
+        let bFruit = Fruit(id: 2, name: "Banana")
+        print("Fruit(id: 1, name: \"Apple\") < Fruit(id: 2, name: \"Banana\") = \(aFruit < bFruit)")
+        
     }
-    
+
     func testForInLoop() {
         let interestingNumbers = [
             "Prime": [2, 3, 5, 7, 11, 13],
@@ -471,7 +546,7 @@ I said "I have \#(apples) apples."\#nAnd then I\#
         }
         print("largest number is \(largest)")
         // 方法三：注意字典遍历是无序的（keys 顺序是随机的）, offset 为 Int 类型，从 0 到 keys.count
-        var enumrator = interestingNumbers.enumerated()
+        let enumrator = interestingNumbers.enumerated()
         for (offset, (key, numbers)) in enumrator {
             for number in numbers {
                 if number > largest {
