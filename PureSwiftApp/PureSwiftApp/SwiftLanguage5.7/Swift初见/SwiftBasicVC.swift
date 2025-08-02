@@ -84,8 +84,8 @@ class SwiftBasicVC: UIViewController {
 //        SwiftArray.memoryLayoutIntroduce()
 
 
-        self.testArrayDictSet()
-//        self.testForInLoop()
+//        self.testArrayDictSet()
+        self.testForInLoop()
 //        self.testSwitchUsage()
 
 
@@ -458,7 +458,21 @@ I said "I have \#(apples) apples."\#nAnd then I\#
             "Square": [1, 4, 9, 16, 25],
         ]
         var largest = 0
+        // 方法一：
+        // var iterator = interestingNumbers.makeIterator()
+        // while let (_, numbers) = iterator.next()
+        // 方法二：与上述方法一完全等价
         for (_, numbers) in interestingNumbers {
+            for number in numbers {
+                if number > largest {
+                    largest = number
+                }
+            }
+        }
+        print("largest number is \(largest)")
+        // 方法三：注意字典遍历是无序的（keys 顺序是随机的）, offset 为 Int 类型，从 0 到 keys.count
+        var enumrator = interestingNumbers.enumerated()
+        for (offset, (key, numbers)) in enumrator {
             for number in numbers {
                 if number > largest {
                     largest = number
