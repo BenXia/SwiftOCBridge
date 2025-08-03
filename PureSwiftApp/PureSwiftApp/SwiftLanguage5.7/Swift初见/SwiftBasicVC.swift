@@ -51,6 +51,52 @@ func > <T1: Comparable, T2: Comparable>(lhs: (T1, T2), rhs: (T1, T2)) -> Bool {
     return !(lhs < rhs)
 }
 
+// Swift 中没有 sqrt、ceil 函数，需要自己实现
+func sqrtCeil(_ x: Int) -> Int {
+    if x == 0 { return 0 }
+    var l = 1, r = x, mid = 0, lastR = x
+    var v: Double = 0
+    while l <= r {
+        mid = (l + r) >> 1
+        v = Double(mid) * Double(mid)
+        if v >= Double(x) {
+            lastR = mid
+            r -= 1
+        } else {
+            l += 1
+        }
+    }
+    return lastR
+}
+
+func sqrtFloor(_ x: Int) -> Int {
+    if x == 0 { return 0 }
+    var l = 1, r = x, mid = 0, lastL = 1
+    var v: Double = 0
+    while l <= r {
+        mid = (l + r) >> 1
+        v = Double(mid) * Double(mid)
+        if v <= Double(x) {
+            lastL = mid
+            l += 1
+        } else {
+            r -= 1
+        }
+    }
+    return lastL
+}
+
+func ceil(_ x: Double) -> Double {
+    if x > Double(Int.max) || x < Double(Int.min) {
+        return x
+    }
+    var value = Int(x)
+    if x > Double(value) {
+        value += 1
+    }
+    return Double(value)
+}
+
 fileprivate func CustomPrint(_ items: Any..., separator: String = " ", terminator: String = "\n") {
     let threadInfo = Thread.current.description
     let output = items.map { "\($0)" }.joined(separator: separator)
@@ -108,7 +154,7 @@ class SwiftBasicVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
 //        self.testLetAndVar()
 //        self.testSingleton()
 //        self.testSort()
