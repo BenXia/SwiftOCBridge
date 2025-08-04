@@ -28,6 +28,8 @@ extension Array: Comparable where Element: Comparable {
 }
 
 // 元组现在的 Swift 版本中已经默认支持比较了，不需要自定义 Extension 实现比较逻辑
+// 下面的代码会导致编译报错，可以代码中通过 sort 加自定义 compare 的 block 方便排序
+//
 //extension (Int, String): Comparable {
 //    public static func < (lhs: (Int, String), rhs: (Int, String)) -> Bool {
 //        if lhs.0 != rhs.0 {
