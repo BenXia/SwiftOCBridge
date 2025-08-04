@@ -504,6 +504,16 @@ I said "I have \#(apples) apples."\#nAnd then I\#
     }
     
     func testArrayDictSet() {
+        // 快捷初始化 Array
+        let array1 = [1, 2, 3, 4]
+        let array2 = ["apple", "banana"]
+        let array3 = Array(1...4)
+        let array4 = Array("Hello")
+        let array5 = [Int](1...4)
+        let array6 = [Character]("Hello")
+        print("array1: \(array1)\narray2: \(array2)\narray3: \(array3)\narray4: \(array4)\narray5: \(array5)\narray6: \(array6)\n")
+
+
         // 编译器类型推断
         var shoppingList = ["catfish", "water", "tulips", "blue paint"]
         shoppingList[1] = "bottle of water"
