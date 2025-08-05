@@ -53,7 +53,7 @@ func > <T1: Comparable, T2: Comparable>(lhs: (T1, T2), rhs: (T1, T2)) -> Bool {
     return !(lhs < rhs)
 }
 
-// Swift 中没有 sqrt、ceil 函数，需要自己实现
+// Swift 中如果没有 sqrt、ceil 函数，自己实现如下
 func sqrtCeil(_ x: Int) -> Int {
     if x == 0 { return 0 }
     var l = 1, r = x, mid = 0, lastR = x
@@ -158,6 +158,8 @@ class SwiftBasicVC: UIViewController {
         super.viewDidLoad()
 
 //        self.testLetAndVar()
+//        self.testRandom()
+        self.testSqrtCeil()
 //        self.testSingleton()
 //        self.testSort()
 //        self.testOptionalUsage()
@@ -168,13 +170,13 @@ class SwiftBasicVC: UIViewController {
         
 //        self.testMultiLineString()
 //        SwiftString.characterSetIntroduce()
-        SwiftString.characterIntStringTransferIntroduce()
+//        SwiftString.characterIntStringTransferIntroduce()
 //        SwiftString.memoryLayoutIntroduce()
 //        SwiftStruct.memoryLayoutIntroduce()
 //        SwiftArray.memoryLayoutIntroduce()
 
-
-        self.testArrayDictSet()
+        
+//        self.testArrayDictSet()
 //        self.testForInLoop()
 //        self.testSwitchUsage()
 
@@ -211,99 +213,6 @@ class SwiftBasicVC: UIViewController {
         webVC.snp.makeConstraints { make in
             make.edges.equalTo(self.view.snp_margins)
         }
-    }
-    
-    func testSingleton() {
-//        // 方法一：
-//        // 默认属性或者惰性初始化
-//        import Foundation
-//
-//        final class SingleOne {
-//            //单例
-//            static let sharedSingleOne = SingleOne()
-//            //或者惰性初始化
-//            //static let sharedSingleOne: SingleOne = { return SingleOne() }()
-//
-//            private init() {}
-//        }
-//
-//
-//
-//        // 方法二：
-//        // struct静态变量+计算属性
-//        final class SingleTwo {
-//            static var sharedInstance: SingleTwo {
-//                struct Static {
-//                    static let instance: SingleTwo = SingleTwo()
-//                }
-//                
-//                return Static.instance
-//            }
-//            
-//            private init() {}
-//        }
-//
-//
-//
-//
-//        // 方法三：
-//        // 全局的常量+计算属性
-//        private let single = SingleThree()
-//
-//        final class SingleThree {
-//            static var sharedInstance: SingleThree {
-//                return single
-//            }
-//            
-//            private init() {}
-//        }
-//
-//
-//
-//        // 方法四：现在不可用了
-//        // ⚠️：Swift3 之后的 dispatch_once 不再可用，请使用上面的3种方法
-//        final class SingleFour {
-//            static func sharedSingleFour() -> SingleFour {
-//                struct Singleton {
-//                    static var onceToken: dispatch_once_t = 0
-//                    static var single: SingleFour?
-//                }
-//                
-//                dispatch_once(&Singleton.onceToken, {
-//                    Singleton.single = SingleFour()
-//                })
-//                
-//                return Singleton.single!
-//            }
-//            
-//            private init() {}
-//        }
-//
-//        // class只能用在class类型 但是static 在结构体 class enum 都能用
-//        // 如果用在class类型里面 static ＝ final class
-    }
-
-    func testSort() {
-        var iArray = [Int]()
-        iArray.append(contentsOf: [3, 2, 1])
-        print("iArray before sort: \(iArray)")
-        iArray.sort()
-        print("iArray after default sort: \(iArray)")
-        iArray.sort{ $0 > $1 }
-        print("iArray after custom sort: \(iArray)")
-        let sortediArray = iArray.sorted{ $0 < $1 }
-        print("iArray after custom sorted: \(sortediArray)")
-
-        // Element 为 Tuple，Tuple 不支持 Comparable，所以不能使用 sort 方法
-        var tuples = [(Int, Int)]()
-        tuples.append(contentsOf: [(3, 1), (2, 2), (1, 3)])
-        print("tuples before sort: \(tuples)")
-//        tuples.sort()
-//        print("tuples after default sort: \(tuples)")
-        tuples.sort{ $0.0 > $1.0 }
-        print("tuples after custom sort: \(tuples)")
-        let sortedTuples = tuples.sorted{ $0.0 < $1.0 }
-        print("tuples after custom sorted: \(sortedTuples)")
     }
 
     func testLetAndVar() {
@@ -361,7 +270,120 @@ class SwiftBasicVC: UIViewController {
         
         //obj = Person()
     }
-    
+
+    func testRandom() {
+        let intRandom = Int.random(in: 1...100)
+        let int64Random = Int64.random(in: 1...100)
+        let floatRandom = Float.random(in: 0...2*Float.pi)
+        let doubleRandom = Double.random(in: 0...2*Double.pi)
+
+        print("intRandom: \(intRandom), int64Random: \(int64Random), floatRandom: \(floatRandom), doubleRandom: \(doubleRandom)")
+    }
+
+    func testSqrtCeil() {
+        let a1 = 10, a2 = 16
+        let b1 = Int(sqrt(Double(a1)))
+        let b2 = Int(sqrt(Double(a2)))
+        print("sqrt(\(a1)) = \(b1), sqrt(\(a2)) = \(b2)")
+        
+        let c1 = -10.1, c2 = 10.0, c3 = 10.1
+        print("ceil(\(c1)) = \(ceil(c1)), ceil(\(c2)) = \(ceil(c2)), ceil(\(c3)) = \(ceil(c3))")
+        print("floor(\(c1)) = \(floor(c1)), floor(\(c2)) = \(floor(c2)), floor(\(c3)) = \(floor(c3))")
+    }
+
+    func testSingleton() {
+//        // 方法一：
+//        // 默认属性或者惰性初始化
+//        import Foundation
+//
+//        final class SingleOne {
+//            //单例
+//            static let sharedSingleOne = SingleOne()
+//            //或者惰性初始化
+//            //static let sharedSingleOne: SingleOne = { return SingleOne() }()
+//
+//            private init() {}
+//        }
+//
+//
+//
+//        // 方法二：
+//        // struct静态变量+计算属性
+//        final class SingleTwo {
+//            static var sharedInstance: SingleTwo {
+//                struct Static {
+//                    static let instance: SingleTwo = SingleTwo()
+//                }
+//
+//                return Static.instance
+//            }
+//
+//            private init() {}
+//        }
+//
+//
+//
+//
+//        // 方法三：
+//        // 全局的常量+计算属性
+//        private let single = SingleThree()
+//
+//        final class SingleThree {
+//            static var sharedInstance: SingleThree {
+//                return single
+//            }
+//
+//            private init() {}
+//        }
+//
+//
+//
+//        // 方法四：现在不可用了
+//        // ⚠️：Swift3 之后的 dispatch_once 不再可用，请使用上面的3种方法
+//        final class SingleFour {
+//            static func sharedSingleFour() -> SingleFour {
+//                struct Singleton {
+//                    static var onceToken: dispatch_once_t = 0
+//                    static var single: SingleFour?
+//                }
+//
+//                dispatch_once(&Singleton.onceToken, {
+//                    Singleton.single = SingleFour()
+//                })
+//
+//                return Singleton.single!
+//            }
+//
+//            private init() {}
+//        }
+//
+//        // class只能用在class类型 但是static 在结构体 class enum 都能用
+//        // 如果用在class类型里面 static ＝ final class
+    }
+
+    func testSort() {
+        var iArray = [Int]()
+        iArray.append(contentsOf: [3, 2, 1])
+        print("iArray before sort: \(iArray)")
+        iArray.sort()
+        print("iArray after default sort: \(iArray)")
+        iArray.sort{ $0 > $1 }
+        print("iArray after custom sort: \(iArray)")
+        let sortediArray = iArray.sorted{ $0 < $1 }
+        print("iArray after custom sorted: \(sortediArray)")
+
+        // Element 为 Tuple，Tuple 不支持 Comparable，所以不能使用 sort 方法
+        var tuples = [(Int, Int)]()
+        tuples.append(contentsOf: [(3, 1), (2, 2), (1, 3)])
+        print("tuples before sort: \(tuples)")
+//        tuples.sort()
+//        print("tuples after default sort: \(tuples)")
+        tuples.sort{ $0.0 > $1.0 }
+        print("tuples after custom sort: \(tuples)")
+        let sortedTuples = tuples.sorted{ $0.0 < $1.0 }
+        print("tuples after custom sorted: \(sortedTuples)")
+    }
+
     func testOptionalUsage() {
         // if let / guard let
         // 可选绑定
@@ -411,7 +433,7 @@ class SwiftBasicVC: UIViewController {
         let fullName: String = "XUJIE"
         print("Hi, \(nickName ?? fullName)")
     }
-    
+
     func testGuard(person: [String: String]) {
         // 如果条件不被满足，在 else 分支上的代码就会被执行。
         // 这个分支必须转移控制以退出 guard 语句出现的代码段（否则编译器出报错）。
@@ -605,7 +627,8 @@ I said "I have \#(apples) apples."\#nAnd then I\#
         print("largest number is \(largest)")
         // 方法三：注意字典遍历是无序的（keys 顺序是随机的）, offset 为 Int 类型，从 0 到 keys.count
         let enumrator = interestingNumbers.enumerated()
-        for (offset, (key, numbers)) in enumrator {
+//        for (offset, (key, numbers)) in enumrator {
+        for (_, (_, numbers)) in enumrator {
             for number in numbers {
                 if number > largest {
                     largest = number
@@ -934,22 +957,22 @@ I said "I have \#(apples) apples."\#nAnd then I\#
             print("found not nil number: \(number)")
         }
         // 使用 if 写法 - 类型解析匹配模式
-        let squareShape = Square(sideLength: 4, name: "square object")
-        if squareShape is NamedShape {
-            print("squareShape is NamedShape")
-        }
-        if let shape = squareShape as? NamedShape {
-            print("squareShape is NamedShape: \(shape)")
-        }
-        if case let shape? = squareShape as? NamedShape {
-            print("squareShape is NamedShape: \(shape)")
-        }
-        if let shape = squareShape as? Shape {
-            print("squareShape is Shape: \(shape)")
-        }
-        if case let shape? = squareShape as? Shape {
-            print("squareShape is Shape: \(shape)")
-        }
+//        let squareShape = Square(sideLength: 4, name: "square object")
+//        if squareShape is NamedShape {
+//            print("squareShape is NamedShape")
+//        }
+//        if let shape = squareShape as? NamedShape {
+//            print("squareShape is NamedShape: \(shape)")
+//        }
+//        if case let shape? = squareShape as? NamedShape {
+//            print("squareShape is NamedShape: \(shape)")
+//        }
+//        if let shape = squareShape as? Shape {
+//            print("squareShape is Shape: \(shape)")
+//        }
+//        if case let shape? = squareShape as? Shape {
+//            print("squareShape is Shape: \(shape)")
+//        }
         // 使用 if 写法 - 区间匹配模式
         let num = 3
         if case 0...5 = num {
