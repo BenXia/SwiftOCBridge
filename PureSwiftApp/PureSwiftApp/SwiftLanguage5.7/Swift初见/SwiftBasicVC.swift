@@ -8,8 +8,9 @@
 import UIKit
 import WebKit
 import SnapKit
+import Collections
 
-// Array默认不支持比较，需要自定义 Extension 实现比较逻辑
+// Array默认不支持比较，需要自定义 Extension 实现比较逻辑（最新的 Swift 中已经支持）
 // 1、自定义为按长度比较
 //extension Array: Comparable where Element: Comparable {
 //    public static func < (lhs: [Element], rhs: [Element]) -> Bool {
@@ -17,7 +18,7 @@ import SnapKit
 //    }
 //}
 // 2、自定义为字典序比较
-extension Array: Comparable where Element: Comparable {
+extension Array: @retroactive Comparable where Element: Comparable {
     public static func < (lhs: [Element], rhs: [Element]) -> Bool {
         for (l, r) in zip(lhs, rhs) {
             if l < r { return true }
@@ -177,6 +178,7 @@ class SwiftBasicVC: UIViewController {
 
         
 //        self.testArrayDictSet()
+        self.testOrderedSetAndOrderedDictionary()
 //        self.testForInLoop()
 //        self.testSwitchUsage()
 
@@ -604,6 +606,46 @@ I said "I have \#(apples) apples."\#nAnd then I\#
         let bFruit = Fruit(id: 2, name: "Banana")
         print("Fruit(id: 1, name: \"Apple\") < Fruit(id: 2, name: \"Banana\") = \(aFruit < bFruit)")
         
+    }
+
+    func testOrderedSetAndOrderedDictionary() {
+        var orderedSet = OrderedSet<Int>()
+        orderedSet.append(3)
+        orderedSet.append(1)
+        orderedSet.append(2)
+        print("normal iterator for orderedSet")
+        for value in orderedSet {
+            print("\(value) ")   // 3 1 2
+        }
+        print("normal iterator after orderedSet sort")
+        orderedSet.sort()
+        for value in orderedSet {
+            print("\(value)")   // 1 2 3
+        }
+
+        var orderedDictionary = OrderedDictionary<Int, Int>()
+        orderedDictionary[3] = 3
+        orderedDictionary[1] = 2
+        orderedDictionary[2] = 1
+        print("normal iterator for orderedDictionary")
+        for (key, value) in orderedDictionary {
+            print("key: \(key) -> value: \(value)")   // 3->3 1->2 2->1
+        }
+        print("normal iterator after orderedDictionary sort")
+        orderedDictionary.sort()
+        for (key, value) in orderedDictionary {
+            print("key: \(key) -> value: \(value)")   // 1->2 2->1 3->3
+        }
+        print("normal iterator after orderedDictionary sortByKeys")
+        orderedDictionary.sort{ $0.key < $1.key }
+        for (key, value) in orderedDictionary {
+            print("key: \(key) -> value: \(value)")   // 1->2 2->1 3->3
+        }
+        print("normal iterator after orderedDictionary sortByValues")
+        orderedDictionary.sort{ $0.value < $1.value }
+        for (key, value) in orderedDictionary {
+            print("key: \(key) -> value: \(value)")   // 2->1 1->2 3->3
+        }
     }
 
     func testForInLoop() {

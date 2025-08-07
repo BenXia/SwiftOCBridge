@@ -353,7 +353,7 @@ class SwiftString {
         print("digitCharacter2 == \"3\" : \(digitCharacter2 == "3")")
     }
 
-    static func memoryLayoutIntroduce() {
+    @MainActor static func memoryLayoutIntroduce() {
         //swift 中 string 变量在内存中是怎么存放的？
         //总结：
         //1.字符串长度不超过15位，内容直接放到变量内存中

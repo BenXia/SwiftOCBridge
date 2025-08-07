@@ -8,7 +8,7 @@
 import Foundation
 
 class SwiftArray {
-    static func memoryLayoutIntroduce() {
+    @MainActor static func memoryLayoutIntroduce() {
         // swift 中 array 变量在内存中是怎么存放的？
         // array 是 struct（值类型）
         // 总结：数组的表象是结构体，但其本质是引用类型。

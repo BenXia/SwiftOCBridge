@@ -7,7 +7,7 @@
 
 import Foundation
 
-class MemsUsage {
+@MainActor class MemsUsage {
     func showMemsUsage() {
         showInt()
         showEnum()

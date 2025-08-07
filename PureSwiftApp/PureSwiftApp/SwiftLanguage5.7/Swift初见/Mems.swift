@@ -12,11 +12,11 @@ public enum MemAlign : Int {
     case one = 1, two = 2, four = 4, eight = 8
 }
 
-private let _EMPTY_PTR = UnsafeRawPointer(bitPattern: 0x1)!
+@MainActor private let _EMPTY_PTR = UnsafeRawPointer(bitPattern: 0x1)!
 
 /// 辅助查看内存的小工具类
 public struct Mems<T> {
-    private static func _memStr(_ ptr: UnsafeRawPointer,
+    @MainActor private static func _memStr(_ ptr: UnsafeRawPointer,
                                 _ size: Int,
                                 _ aligment: Int) ->String {
         if ptr == _EMPTY_PTR { return "" }
@@ -46,7 +46,7 @@ public struct Mems<T> {
         return string
     }
     
-    private static func _memBytes(_ ptr: UnsafeRawPointer,
+    @MainActor private static func _memBytes(_ ptr: UnsafeRawPointer,
                                   _ size: Int) -> [UInt8] {
         var arr: [UInt8] = []
         if ptr == _EMPTY_PTR { return arr }
@@ -57,12 +57,12 @@ public struct Mems<T> {
     }
     
     /// 获得变量的内存数据（字节数组格式）
-    public static func memBytes(ofVal v: inout T) -> [UInt8] {
+    @MainActor public static func memBytes(ofVal v: inout T) -> [UInt8] {
         return _memBytes(ptr(ofVal: &v), MemoryLayout.stride(ofValue: v))
     }
     
     /// 获得引用所指向的内存数据（字节数组格式）
-    public static func memBytes(ofRef v: T) -> [UInt8] {
+    @MainActor public static func memBytes(ofRef v: T) -> [UInt8] {
         let p = ptr(ofRef: v)
         return _memBytes(p, malloc_size(p))
     }
@@ -70,7 +70,7 @@ public struct Mems<T> {
     /// 获得变量的内存数据（字符串格式）
     ///
     /// - Parameter alignment: 决定了多少个字节为一组
-    public static func memStr(ofVal v: inout T, alignment: MemAlign? = nil) -> String {
+    @MainActor public static func memStr(ofVal v: inout T, alignment: MemAlign? = nil) -> String {
         let p = ptr(ofVal: &v)
         return _memStr(p, MemoryLayout.stride(ofValue: v),
                        alignment != nil ? alignment!.rawValue : MemoryLayout.alignment(ofValue: v))
@@ -79,21 +79,21 @@ public struct Mems<T> {
     /// 获得引用所指向的内存数据（字符串格式）
     ///
     /// - Parameter alignment: 决定了多少个字节为一组
-    public static func memStr(ofRef v: T, alignment: MemAlign? = nil) -> String {
+    @MainActor public static func memStr(ofRef v: T, alignment: MemAlign? = nil) -> String {
         let p = ptr(ofRef: v)
         return _memStr(p, malloc_size(p),
                        alignment != nil ? alignment!.rawValue : MemoryLayout.alignment(ofValue: v))
     }
     
     /// 获得变量的内存地址
-    public static func ptr(ofVal v: inout T) -> UnsafeRawPointer {
+    @MainActor public static func ptr(ofVal v: inout T) -> UnsafeRawPointer {
         return MemoryLayout.size(ofValue: v) == 0 ? _EMPTY_PTR : withUnsafePointer(to: &v) {
             UnsafeRawPointer($0)
         }
     }
     
     /// 获得引用所指向内存的地址
-    public static func ptr(ofRef v: T) -> UnsafeRawPointer {
+    @MainActor public static func ptr(ofRef v: T) -> UnsafeRawPointer {
         if v is Array<Any>
             || Swift.type(of: v) is AnyClass
             || v is AnyClass {
@@ -115,7 +115,7 @@ public struct Mems<T> {
     }
     
     /// 获得引用所指向内存的大小
-    public static func size(ofRef v: T) -> Int {
+    @MainActor public static func size(ofRef v: T) -> Int {
         return malloc_size(ptr(ofRef: v))
     }
 }
@@ -152,7 +152,7 @@ public extension MemsCompatible {
 
 extension String: MemsCompatible {}
 public extension MemsWrapper where Base == String {
-    mutating func type() -> StringMemType {
+    @MainActor mutating func type() -> StringMemType {
         let ptr = Mems.ptr(ofVal: &base)
         return StringMemType(rawValue: (ptr + 15).load(as: UInt8.self) & 0xf0)
             ?? StringMemType(rawValue: (ptr + 7).load(as: UInt8.self) & 0xf0)

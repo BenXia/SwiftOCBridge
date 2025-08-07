@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3319CDDE2E44C202005EDDC4 /* BitCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 3319CDDD2E44C202005EDDC4 /* BitCollections */; };
+		3319CDE02E44C202005EDDC4 /* Collections in Frameworks */ = {isa = PBXBuildFile; productRef = 3319CDDF2E44C202005EDDC4 /* Collections */; };
+		3319CDE22E44C202005EDDC4 /* DequeModule in Frameworks */ = {isa = PBXBuildFile; productRef = 3319CDE12E44C202005EDDC4 /* DequeModule */; };
+		3319CDE42E44C202005EDDC4 /* HashTreeCollections in Frameworks */ = {isa = PBXBuildFile; productRef = 3319CDE32E44C202005EDDC4 /* HashTreeCollections */; };
+		3319CDE62E44C202005EDDC4 /* HeapModule in Frameworks */ = {isa = PBXBuildFile; productRef = 3319CDE52E44C202005EDDC4 /* HeapModule */; };
 		3346DF5A2B14670300218B24 /* NFD-NFC.webp in Resources */ = {isa = PBXBuildFile; fileRef = 3346DF572B14670300218B24 /* NFD-NFC.webp */; };
 		3346DF5B2B14670300218B24 /* Canonical Equivalence.webp in Resources */ = {isa = PBXBuildFile; fileRef = 3346DF582B14670300218B24 /* Canonical Equivalence.webp */; };
 		3346DF5C2B14670300218B24 /* Compatibility Equivalence.webp in Resources */ = {isa = PBXBuildFile; fileRef = 3346DF592B14670300218B24 /* Compatibility Equivalence.webp */; };
@@ -84,6 +89,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3319CDE42E44C202005EDDC4 /* HashTreeCollections in Frameworks */,
+				3319CDE02E44C202005EDDC4 /* Collections in Frameworks */,
+				3319CDE22E44C202005EDDC4 /* DequeModule in Frameworks */,
+				3319CDDE2E44C202005EDDC4 /* BitCollections in Frameworks */,
+				3319CDE62E44C202005EDDC4 /* HeapModule in Frameworks */,
 				CFEBCBE6C276D9C3E17A1332 /* Pods_PureSwiftApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -294,7 +304,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					339BE8FB2B0DD82E001D32BA = {
 						CreatedOnToolsVersion = 15.0.1;
@@ -310,6 +320,9 @@
 				Base,
 			);
 			mainGroup = 339BE8F32B0DD82E001D32BA;
+			packageReferences = (
+				3319CDDC2E44C202005EDDC4 /* XCRemoteSwiftPackageReference "swift-collections" */,
+			);
 			productRefGroup = 339BE8FD2B0DD82E001D32BA /* Products */;
 			projectDirPath = "";
 			projectReferences = (
@@ -387,9 +400,13 @@
 			inputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-PureSwiftApp/Pods-PureSwiftApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
+			inputPaths = (
+			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-PureSwiftApp/Pods-PureSwiftApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -585,7 +602,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = iOSStudio.PureSwiftApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -614,7 +631,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = iOSStudio.PureSwiftApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
@@ -641,6 +658,45 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		3319CDDC2E44C202005EDDC4 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.2.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		3319CDDD2E44C202005EDDC4 /* BitCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3319CDDC2E44C202005EDDC4 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = BitCollections;
+		};
+		3319CDDF2E44C202005EDDC4 /* Collections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3319CDDC2E44C202005EDDC4 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = Collections;
+		};
+		3319CDE12E44C202005EDDC4 /* DequeModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3319CDDC2E44C202005EDDC4 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = DequeModule;
+		};
+		3319CDE32E44C202005EDDC4 /* HashTreeCollections */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3319CDDC2E44C202005EDDC4 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = HashTreeCollections;
+		};
+		3319CDE52E44C202005EDDC4 /* HeapModule */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3319CDDC2E44C202005EDDC4 /* XCRemoteSwiftPackageReference "swift-collections" */;
+			productName = HeapModule;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 339BE8F42B0DD82E001D32BA /* Project object */;
 }
