@@ -178,7 +178,7 @@ class SwiftBasicVC: UIViewController {
 
         
 //        self.testArrayDictSet()
-        self.testOrderedSetAndOrderedDictionary()
+        self.testCollectionsPackageCollections()
 //        self.testForInLoop()
 //        self.testSwitchUsage()
 
@@ -608,7 +608,8 @@ I said "I have \#(apples) apples."\#nAnd then I\#
         
     }
 
-    func testOrderedSetAndOrderedDictionary() {
+    func testCollectionsPackageCollections() {
+        // OrderedSet、OrderedDictionary、Heap、Deque、BitSet、BitArray、TreeSet、TreeDictionary
         var orderedSet = OrderedSet<Int>()
         orderedSet.append(3)
         orderedSet.append(1)
@@ -645,6 +646,24 @@ I said "I have \#(apples) apples."\#nAnd then I\#
         orderedDictionary.sort{ $0.value < $1.value }
         for (key, value) in orderedDictionary {
             print("key: \(key) -> value: \(value)")   // 2->1 1->2 3->3
+        }
+
+        var treeSet = TreeSet<Int>()
+        treeSet.insert(3)
+        treeSet.insert(1)
+        treeSet.insert(2)
+        print("normal iterator for treeSet")
+        for value in treeSet {
+            print("\(value) ")   // 无序
+        }
+
+        var treeDictionary = TreeDictionary<Int, Int>()
+        treeDictionary[3] = 3
+        treeDictionary[1] = 2
+        treeDictionary[2] = 1
+        print("normal iterator for treeDictionary")
+        for (key, value) in treeDictionary {
+            print("key: \(key) -> value: \(value)")   // 无序
         }
     }
 
