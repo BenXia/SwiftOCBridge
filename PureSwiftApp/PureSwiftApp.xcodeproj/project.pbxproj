@@ -99,6 +99,13 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		3380D4DE2E432B0D00484C1D /* SwiftAsync */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = SwiftAsync;
+			sourceTree = "<group>";
+		};
 		339BE8F32B0DD82E001D32BA = {
 			isa = PBXGroup;
 			children = (
@@ -124,6 +131,7 @@
 				33D930422B118D6D005631EE /* SwiftAdvanced */,
 				33D930412B118D6D005631EE /* SwiftTips */,
 				33D930402B118D6D005631EE /* SwiftFunctionalProgramming */,
+				3380D4DE2E432B0D00484C1D /* SwiftAsync */,
 				33D930432B118D6E005631EE /* SwiftUIAndCombine */,
 				33D9303F2B118D6D005631EE /* SwiftOptimizingCollections */,
 				33D930442B118D6E005631EE /* SwiftAppArchitecture */,
