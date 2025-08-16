@@ -10,7 +10,7 @@ import WebKit
 import SnapKit
 import Collections
 
-// Array默认不支持比较，需要自定义 Extension 实现比较逻辑（最新的 Swift 中已经支持）
+// Array默认不支持比较，需要自定义 Extension 实现比较逻辑（最新的 Swift 中已经支持）（leetCode中依然不支持）
 // 1、自定义为按长度比较
 //extension Array: Comparable where Element: Comparable {
 //    public static func < (lhs: [Element], rhs: [Element]) -> Bool {
@@ -28,7 +28,7 @@ extension Array: @retroactive Comparable where Element: Comparable {
     }
 }
 
-// 元组现在的 Swift 版本中已经默认支持比较了，不需要自定义 Extension 实现比较逻辑
+// 元组现在的 Swift 版本中已经默认支持比较了，不需要自定义 Extension 实现比较逻辑（leetCode中依然不支持，添加下面的代码也会报错）
 // 下面的代码会导致编译报错，可以代码中通过 sort 加自定义 compare 的 block 方便排序
 //
 //extension (Int, String): Comparable {
@@ -199,7 +199,7 @@ class SwiftBasicVC: UIViewController {
 //        self.testObjectAndClass()
         
 //        self.testOptionalChain()
-//        self.testAsync()
+        self.testAsync()
 //        self.testActor()
 //        self.testProtocolExtension()
 //        self.testErrorHandle()
@@ -610,6 +610,7 @@ I said "I have \#(apples) apples."\#nAnd then I\#
 
     func testCollectionsPackageCollections() {
         // OrderedSet、OrderedDictionary、Heap、Deque、BitSet、BitArray、TreeSet、TreeDictionary
+        // OrderedSet
         var orderedSet = OrderedSet<Int>()
         orderedSet.append(3)
         orderedSet.append(1)
@@ -624,6 +625,7 @@ I said "I have \#(apples) apples."\#nAnd then I\#
             print("\(value)")   // 1 2 3
         }
 
+        // OrderedDictionary
         var orderedDictionary = OrderedDictionary<Int, Int>()
         orderedDictionary[3] = 3
         orderedDictionary[1] = 2
@@ -648,6 +650,17 @@ I said "I have \#(apples) apples."\#nAnd then I\#
             print("key: \(key) -> value: \(value)")   // 2->1 1->2 3->3
         }
 
+        // Heap
+        var heap = Heap<[Int]>()
+        heap.insert([1,2,3])
+        heap.insert([3,2,1])
+        heap.insert([2,2,2])
+        print("max in heap: \(heap.popMin() ?? [-1, -1, -1])")
+        print("min in heap: \(heap.popMax() ?? [-1, -1, -1])")
+        print("max in heap: \(heap.popMin() ?? [-1, -1, -1])")
+        print("min in heap: \(heap.popMax() ?? [-1, -1, -1])")
+
+        // TreeSet
         var treeSet = TreeSet<Int>()
         treeSet.insert(3)
         treeSet.insert(1)
@@ -657,6 +670,7 @@ I said "I have \#(apples) apples."\#nAnd then I\#
             print("\(value) ")   // 无序
         }
 
+        // TreeDictionary
         var treeDictionary = TreeDictionary<Int, Int>()
         treeDictionary[3] = 3
         treeDictionary[1] = 2
