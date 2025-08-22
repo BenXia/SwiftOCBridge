@@ -195,6 +195,7 @@ class SwiftBasicVC: UIViewController {
 //        self.testAutoClosure()
    
 //        self.testEnum()
+//        self.testIndirectEnum()
 //        self.testStruct()
 //        self.testObjectAndClass()
         
@@ -1459,10 +1460,10 @@ I said "I have \#(apples) apples."\#nAnd then I\#
         case let .failure(message):
             print("Failure... \(message)")
         }
-        
-        
-        
-        // 递归枚举
+    }
+
+    func testIndirectEnum() {
+        // 递归枚举举例1
         enum ArithmeticExpression {
             case number(Int)
             indirect case addition(ArithmeticExpression, ArithmeticExpression)
@@ -1486,8 +1487,439 @@ I said "I have \#(apples) apples."\#nAnd then I\#
         let product = ArithmeticExpression.multiplication(sum, ArithmeticExpression.number(2))
         
         print("product calc result: \(evaluate(product))")
+        
+        
+        
+        // 递归枚举举例2
+        indirect enum FileNode {
+            case file(name: String, content: String)
+            case folder(name: String, items: [FileNode])
+
+            var name: String {
+                switch self {
+                case let .file(name, _):
+                    return name
+                case let .folder(name, _):
+                    return name
+                }
+            }
+
+            mutating func updateFileContent(_ content: String) {
+                if case .file(let name, _) = self {
+                    self = .file(name: name, content: content)
+                }
+            }
+
+            mutating func updateFolderItems(_ items: [FileNode]) {
+                if case .folder(let name, _) = self {
+                    self = .folder(name: name, items: items)
+                }
+            }
+
+            func ls(_ components: [String]) -> [String] {
+                var tmpNode: FileNode? = nil
+                if components.count > 0 {
+                    if case let .folder(_, items) = self {
+                        tmpNode = items.first{
+                            $0.name == components.first!
+                        }!
+                        return tmpNode!.ls([String](components.dropFirst()))
+                    } else {
+                        return []
+                    }
+                } else {
+                    switch self {
+                    case let .file(name, _):
+                        return [name]
+                    case let .folder(_, items):
+                        return items.map{ $0.name }
+                        // return items.map{ $0.name }.sorted()
+                    }
+                }
+            }
+
+            mutating func mkdir(_ components: [String]) {
+                var tmpNode: FileNode? = nil
+                if components.count > 0 {
+                    if case .folder(_, var items) = self {
+                        tmpNode = items.first{ $0.name == components.first! }
+                        if tmpNode == nil {
+                            tmpNode = .folder(name:components.first!, items:[])
+                        }
+                        tmpNode!.mkdir([String](components.dropFirst()))
+                        items.removeAll{ $0.name == components.first! }
+                        self.updateFolderItems((items + [tmpNode!]).sorted{
+                            $0.name < $1.name
+                        })
+                    }
+                }
+            }
+
+            mutating func addContentToFile(_ components: [String], _ content: String) {
+                var tmpNode: FileNode? = nil
+                if components.count > 0 {
+                    if case .folder(_, var items) = self {
+                        tmpNode = items.first{ $0.name == components.first! }
+                        if tmpNode == nil {
+                            tmpNode = .file(name:components.first!, content:content)
+                        } else {
+                            tmpNode!.addContentToFile([String](components.dropFirst()), content)
+                        }
+
+                        items.removeAll{ $0.name == components.first! }
+                        self.updateFolderItems((items + [tmpNode!]).sorted{
+                            $0.name < $1.name
+                        })
+                    }
+                } else {
+                    if case let .file(_, originContent) = self {
+                        self.updateFileContent(originContent + content)
+                    }
+                }
+            }
+
+            func readContentFromFile(_ components: [String]) -> String {
+                var tmpNode: FileNode? = nil
+                if components.count > 0 {
+                    if case let .folder(_, items) = self {
+                        tmpNode = items.first{ $0.name == components.first! }
+                        return tmpNode!.readContentFromFile([String](components.dropFirst()))
+                    } else {
+                        return ""
+                    }
+                } else {
+                    if case let .file(_, content) = self {
+                        return content
+                    } else {
+                        return ""
+                    }
+                }
+            }
+        }
+
+
+        class FileSystem {
+            var root: FileNode
+
+            init() {
+                root = .folder(name:"", items:[])
+            }
+
+            func ls(_ path: String) -> [String] {
+                let components = path.split(separator:"/").map{ String($0) }
+                return root.ls(components)
+            }
+
+            func mkdir(_ path: String) {
+                let components = path.split(separator:"/").map{ String($0) }
+                root.mkdir(components)
+            }
+
+            func addContentToFile(_ filePath: String, _ content: String) {
+                let components = filePath.split(separator:"/").map{ String($0) }
+                root.addContentToFile(components, content)
+            }
+
+            func readContentFromFile(_ filePath: String) -> String {
+                let components = filePath.split(separator:"/").map{ String($0) }
+                return root.readContentFromFile(components)
+            }
+        }
+        
+        let obj = FileSystem()
+        print(obj.ls("/"))
+        obj.mkdir("/a/b/c")
+        obj.addContentToFile("/a/b/c/d", "Hello world!")
+        print(obj.readContentFromFile("/a/b/c/d"))
+        
+
+//        // 方法二：使用引用类型+协议
+//        protocol IFile {
+//            var name: String { get set }
+//
+//            func ls(_ components: [String]) -> [String]
+//            mutating func mkdir(_ components: [String])
+//            mutating func addContentToFile(_ components: [String], _ content: String)
+//            func readContentFromFile(_ components: [String]) -> String
+//        }
+//
+//        class File: IFile {
+//            var name: String
+//            var content: String
+//
+//            init(name: String, content:String) {
+//                self.name = name
+//                self.content = content
+//            }
+//
+//            func ls(_ components: [String]) -> [String] {
+//                if components.count > 0 {
+//                    return []
+//                } else {
+//                    return [name]
+//                }
+//            }
+//
+//            func mkdir(_ components: [String]) {
+//                return
+//            }
+//
+//            func addContentToFile(_ components: [String], _ content: String) {
+//                if components.count > 0 {
+//                    return
+//                } else {
+//                    self.content += content
+//                }
+//            }
+//
+//            func readContentFromFile(_ components: [String]) -> String {
+//                if components.count > 0 {
+//                    return ""
+//                } else {
+//                    return content
+//                }
+//            }
+//        }
+//
+//        class Folder: IFile {
+//            var name: String
+//            var items: [IFile]
+//
+//            init(name: String, items: [IFile]) {
+//                self.name = name
+//                self.items = items
+//            }
+//
+//            func ls(_ components: [String]) -> [String] {
+//                if components.count > 0 {
+//                    var tmpNode = items.first{
+//                        $0.name == components.first!
+//                    }!
+//                    return tmpNode.ls([String](components.dropFirst()))
+//                } else {
+//                    return items.map{ $0.name }
+//                    // return items.map{ $0.name }.sorted()
+//                }
+//            }
+//
+//            func mkdir(_ components: [String]) {
+//                if components.count > 0 {
+//                    var tmpNode = items.first{ $0.name == components.first! }
+//                    if tmpNode == nil {
+//                        tmpNode = Folder(name:components.first!, items:[])
+//                        self.items = (items + [tmpNode!]).sorted{
+//                            $0.name < $1.name
+//                        }
+//                    }
+//                    tmpNode!.mkdir([String](components.dropFirst()))
+//                }
+//            }
+//
+//            func addContentToFile(_ components: [String], _ content: String) {
+//                if components.count > 0 {
+//                    var tmpNode = items.first{ $0.name == components.first! }
+//                    if tmpNode == nil {
+//                        tmpNode = File(name:components.first!, content:content)
+//                        self.items = (items + [tmpNode!]).sorted{
+//                            $0.name < $1.name
+//                        }
+//                    } else {
+//                        tmpNode!.addContentToFile([String](components.dropFirst()), content)
+//                    }
+//                }
+//            }
+//
+//            func readContentFromFile(_ components: [String]) -> String {
+//                if components.count > 0 {
+//                    var tmpNode = items.first{ $0.name == components.first! }
+//                    return tmpNode!.readContentFromFile([String](components.dropFirst()))
+//                } else {
+//                    return ""
+//                }
+//            }
+//        }
+//
+//
+//        class FileSystem {
+//            var root: Folder
+//
+//            init() {
+//                root = Folder(name:"", items:[])
+//            }
+//
+//            func ls(_ path: String) -> [String] {
+//                let components = path.split(separator:"/").map{ String($0) }
+//                return root.ls(components)
+//            }
+//
+//            func mkdir(_ path: String) {
+//                let components = path.split(separator:"/").map{ String($0) }
+//                root.mkdir(components)
+//            }
+//
+//            func addContentToFile(_ filePath: String, _ content: String) {
+//                let components = filePath.split(separator:"/").map{ String($0) }
+//                root.addContentToFile(components, content)
+//            }
+//
+//            func readContentFromFile(_ filePath: String) -> String {
+//                let components = filePath.split(separator:"/").map{ String($0) }
+//                return root.readContentFromFile(components)
+//            }
+//        }
+//
+//
+//
+//
+//
+//        // 方法三：使用引用类型+父类
+//        class FileNode {
+//            var name: String
+//
+//            init(name: String) {
+//                self.name = name
+//            }
+//
+//            func ls(_ components: [String]) -> [String] {
+//                assert(false)
+//                return []
+//            }
+//            func mkdir(_ components: [String]) {
+//                assert(false)
+//            }
+//            func addContentToFile(_ components: [String], _ content: String) {
+//                assert(false)
+//            }
+//            func readContentFromFile(_ components: [String]) -> String {
+//                assert(false)
+//                return ""
+//            }
+//        }
+//
+//        class File: FileNode {
+//            var content: String
+//
+//            init(name: String, content:String) {
+//                self.content = content
+//                super.init(name:name)
+//            }
+//
+//            override func ls(_ components: [String]) -> [String] {
+//                if components.count > 0 {
+//                    return []
+//                } else {
+//                    return [name]
+//                }
+//            }
+//
+//            override func mkdir(_ components: [String]) {
+//                return
+//            }
+//
+//            override func addContentToFile(_ components: [String], _ content: String) {
+//                if components.count > 0 {
+//                    return
+//                } else {
+//                    self.content += content
+//                }
+//            }
+//
+//            override func readContentFromFile(_ components: [String]) -> String {
+//                if components.count > 0 {
+//                    return ""
+//                } else {
+//                    return content
+//                }
+//            }
+//        }
+//
+//        class Folder: FileNode {
+//            var items: [FileNode]
+//
+//            init(name: String, items: [FileNode]) {
+//                self.items = items
+//                super.init(name:name)
+//            }
+//
+//            override func ls(_ components: [String]) -> [String] {
+//                if components.count > 0 {
+//                    var tmpNode = items.first{
+//                        $0.name == components.first!
+//                    }!
+//                    return tmpNode.ls([String](components.dropFirst()))
+//                } else {
+//                    return items.map{ $0.name }
+//                    // return items.map{ $0.name }.sorted()
+//                }
+//            }
+//
+//            override func mkdir(_ components: [String]) {
+//                if components.count > 0 {
+//                    var tmpNode = items.first{ $0.name == components.first! }
+//                    if tmpNode == nil {
+//                        tmpNode = Folder(name:components.first!, items:[])
+//                        self.items = (items + [tmpNode!]).sorted{
+//                            $0.name < $1.name
+//                        }
+//                    }
+//                    tmpNode!.mkdir([String](components.dropFirst()))
+//                }
+//            }
+//
+//            override func addContentToFile(_ components: [String], _ content: String) {
+//                if components.count > 0 {
+//                    var tmpNode = items.first{ $0.name == components.first! }
+//                    if tmpNode == nil {
+//                        tmpNode = File(name:components.first!, content:content)
+//                        self.items = (items + [tmpNode!]).sorted{
+//                            $0.name < $1.name
+//                        }
+//                    } else {
+//                        tmpNode!.addContentToFile([String](components.dropFirst()), content)
+//                    }
+//                }
+//            }
+//
+//            override func readContentFromFile(_ components: [String]) -> String {
+//                if components.count > 0 {
+//                    var tmpNode = items.first{ $0.name == components.first! }
+//                    return tmpNode!.readContentFromFile([String](components.dropFirst()))
+//                } else {
+//                    return ""
+//                }
+//            }
+//        }
+//
+//
+//        class FileSystem {
+//            var root: Folder
+//
+//            init() {
+//                root = Folder(name:"", items:[])
+//            }
+//
+//            func ls(_ path: String) -> [String] {
+//                let components = path.split(separator:"/").map{ String($0) }
+//                return root.ls(components)
+//            }
+//
+//            func mkdir(_ path: String) {
+//                let components = path.split(separator:"/").map{ String($0) }
+//                root.mkdir(components)
+//            }
+//
+//            func addContentToFile(_ filePath: String, _ content: String) {
+//                let components = filePath.split(separator:"/").map{ String($0) }
+//                root.addContentToFile(components, content)
+//            }
+//
+//            func readContentFromFile(_ filePath: String) -> String {
+//                let components = filePath.split(separator:"/").map{ String($0) }
+//                return root.readContentFromFile(components)
+//            }
+//        }
     }
-    
+
     func testStruct() {
         // 结构体和类有很多相同的地方，包括方法和构造器。
         // 它们之间最大的一个区别就是结构体是传值，类是传引用。
