@@ -6,6 +6,9 @@ target "PureSwiftApp" do
     pod 'SnapKit'
     pod 'Alamofire'
     pod 'SwiftyJSON'
+    pod 'RxSwift'
+    pod 'RxCocoa'
+    pod 'RxTest'
 end
 
 #swift_32 = ['FontAwesome.swift','FontAwesome.swift-FontAwesome.swift']

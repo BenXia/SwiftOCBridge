@@ -35,6 +35,7 @@
 		33AE58322B1D9C91009796A7 /* TableDispatch.png in Resources */ = {isa = PBXBuildFile; fileRef = 33AE582D2B1D9C91009796A7 /* TableDispatch.png */; };
 		33AE58332B1D9C91009796A7 /* SwiftMethodDispatch.png in Resources */ = {isa = PBXBuildFile; fileRef = 33AE582E2B1D9C91009796A7 /* SwiftMethodDispatch.png */; };
 		33AE58342B1D9C91009796A7 /* ModifierOverview.png in Resources */ = {isa = PBXBuildFile; fileRef = 33AE582F2B1D9C91009796A7 /* ModifierOverview.png */; };
+		33D003442EAE388000807FBC /* RxSwiftVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D003422EAE388000807FBC /* RxSwiftVC.swift */; };
 		33D930462B11905B005631EE /* SwiftChapterVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D930452B11905B005631EE /* SwiftChapterVC.swift */; };
 		33D9304A2B1195AF005631EE /* SwiftTutorialTableVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D930492B1195AF005631EE /* SwiftTutorialTableVC.swift */; };
 		CFEBCBE6C276D9C3E17A1332 /* Pods_PureSwiftApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 593ADC9B8FE38DCCDBA61A91 /* Pods_PureSwiftApp.framework */; };
@@ -77,6 +78,7 @@
 		33AE582D2B1D9C91009796A7 /* TableDispatch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = TableDispatch.png; sourceTree = "<group>"; };
 		33AE582E2B1D9C91009796A7 /* SwiftMethodDispatch.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = SwiftMethodDispatch.png; sourceTree = "<group>"; };
 		33AE582F2B1D9C91009796A7 /* ModifierOverview.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ModifierOverview.png; sourceTree = "<group>"; };
+		33D003422EAE388000807FBC /* RxSwiftVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RxSwiftVC.swift; sourceTree = "<group>"; };
 		33D930452B11905B005631EE /* SwiftChapterVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SwiftChapterVC.swift; sourceTree = "<group>"; };
 		33D930492B1195AF005631EE /* SwiftTutorialTableVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftTutorialTableVC.swift; sourceTree = "<group>"; };
 		593ADC9B8FE38DCCDBA61A91 /* Pods_PureSwiftApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PureSwiftApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,6 +147,7 @@
 				33D930432B118D6E005631EE /* SwiftUIAndCombine */,
 				33D9303F2B118D6D005631EE /* SwiftOptimizingCollections */,
 				33D930442B118D6E005631EE /* SwiftAppArchitecture */,
+				33D003432EAE388000807FBC /* ThirdLib */,
 				339BE8FF2B0DD82E001D32BA /* AppDelegate.swift */,
 				339BE9012B0DD82E001D32BA /* SceneDelegate.swift */,
 				339BE9052B0DD82E001D32BA /* Main.storyboard */,
@@ -201,6 +204,14 @@
 				33D930452B11905B005631EE /* SwiftChapterVC.swift */,
 			);
 			path = "Swift教程";
+			sourceTree = "<group>";
+		};
+		33D003432EAE388000807FBC /* ThirdLib */ = {
+			isa = PBXGroup;
+			children = (
+				33D003422EAE388000807FBC /* RxSwiftVC.swift */,
+			);
+			path = ThirdLib;
 			sourceTree = "<group>";
 		};
 		33D9303E2B1185AA005631EE /* SwiftLanguage5.7 */ = {
@@ -431,6 +442,7 @@
 				334EF66C2B11F471007409EE /* SwiftStruct.swift in Sources */,
 				339BE91C2B0DE592001D32BA /* SwiftSummaryVC.swift in Sources */,
 				334EF6702B11FC3A007409EE /* MemsUsage.swift in Sources */,
+				33D003442EAE388000807FBC /* RxSwiftVC.swift in Sources */,
 				33AE582A2B1D9C59009796A7 /* SwiftMethodDispatcher.swift in Sources */,
 				334EF6622B11C812007409EE /* SwiftString.swift in Sources */,
 				334EF6642B11C86D007409EE /* SwiftArray.swift in Sources */,
